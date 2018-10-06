@@ -1,10 +1,10 @@
 {
-  "name": "gatsby-starter-blog",
-  "description": "Starter Gatsby Blog",
+  "name": "relevant-programmer",
+  "description": "Ashok Dudhade's Blog",
   "version": "1.0.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Ashok Dudhade <ashok.dudhade@outlook.com>",
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby-starter-blog/issues"
+    "url": "https://github.com/ashokdudhade/relevant-programmer/issues"
   },
   "dependencies": {
     "gatsby": "^2.0.0",
@@ -40,7 +40,7 @@
     "gh-pages": "^1.2.0",
     "prettier": "^1.14.2"
   },
-  "homepage": "https://github.com/gatsbyjs/gatsby-starter-blog#readme",
+  "homepage": "https://github.com/ashokdudhade/relevant-programmer/blob/master/README.md",
   "keywords": [
     "gatsby"
   ],
@@ -48,7 +48,7 @@
   "main": "n/a",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gatsbyjs/gatsby-starter-blog.git"
+    "url": "git+https://github.com/ashokdudhade/relevant-programmer.git"
   },
   "scripts": {
     "dev": "gatsby develop",
