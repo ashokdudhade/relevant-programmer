@@ -4,7 +4,9 @@ import React from 'react'
 import 'typeface-montserrat'
 import 'typeface-merriweather'
 
+import twitterIcon from '../assets/Twitter_Social_Icon_Circle_Color.png'
 import profilePic from './profile-pic.jpg'
+
 import { rhythm } from '../utils/typography'
 
 class Bio extends React.Component {
@@ -29,9 +31,19 @@ class Bio extends React.Component {
         />
         <p>
           Written by <strong>Ashok Dudhade</strong>.{' '}
-          <a href="https://twitter.com/ASHOKDUDHADE">
-            Twitter
-          </a>
+          {/* <a href="https://twitter.com/ashokdudhade">
+            <img src={twitterIcon} 
+             style={{
+                borderRadius: "50%",
+                marginRight: rhythm(1 / 2),
+                marginBottom: 0,
+                width: rhythm(0.5),
+                height: rhythm(0.5),
+                ':hover':{
+
+                }
+              }}/>
+          </a> */}
         </p>
       </div>
     )
