@@ -6,6 +6,7 @@ import get from 'lodash/get'
 import Bio from '../components/Bio'
 import Layout from '../components/layout'
 import { rhythm, scale } from '../utils/typography'
+import SharePost from './share-post';
 
 class BlogPostTemplate extends React.Component {
   render() {
@@ -65,7 +66,13 @@ class BlogPostTemplate extends React.Component {
               </Link>
             }
           </li>
+          <li>
+           <SharePost title={post.frontmatter.title} excerpt={siteDescription}/>
+       
+          </li>
         </ul>
+       
+        
       </Layout>
     )
   }
