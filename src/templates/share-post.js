@@ -38,7 +38,10 @@ import {
       render(){
         const title = this.props.title;
         const excerpt = this.props.excerpt;
-        const url = window.location.href;
+        let url = '';
+        if (typeof window !== `undefined`) {
+            url = window.location.href;
+        }
         return (<div style={{
             display: 'flex',
             flexDirection: 'row',
