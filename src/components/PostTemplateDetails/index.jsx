@@ -2,6 +2,8 @@ import React from 'react';
 import Link from 'gatsby-link';
 import moment from 'moment';
 import Disqus from '../Disqus/Disqus';
+import Share from '../Share';
+
 import './style.scss';
 
 class PostTemplateDetails extends React.Component {
@@ -57,6 +59,7 @@ class PostTemplateDetails extends React.Component {
               </a>
             </p>
             {disqusShortname && commentsBlock}
+            <Share url={`${url}${window.location.pathname}`} title={post.frontmatter.title} />
           </div>
         </div>
       </div>
