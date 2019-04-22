@@ -17,8 +17,8 @@ React hooks is a modern way to write the logic in react components without intro
 
 
 ## Why not recompose?
-    Recompose library is the awesome framework which helps write react application using higher order component but unfortunately 
-    [recompose is discontinuing](https://github.com/acdlite/recompose#a-note-from-the-author-acdlite-oct-25-2018) and react hooks is supposed to help to solve problems in a better way.
+Recompose library is the awesome framework which helps write react application using higher order component but unfortunately 
+[recompose is discontinuing](https://github.com/acdlite/recompose#a-note-from-the-author-acdlite-oct-25-2018) and react hooks is supposed to help to solve problems in a better way.
 
 ## What does this article cover?
 A new way of writing react application using react hooks and structure of the app. We will build a standard todo application and structure it to make readable. At the high level below is the structure of the todo app.
@@ -150,7 +150,8 @@ The common structure of components is as follows.
 
 Components use hooks for logic and state management. Any action in the component will trigger method in hook and based on logic defined it will call an API and update state or do some other action in the app.
 
-Here is an example of todo item fetching hook. the useEffect method is used to make API call and it dispatches the action to update todo items
+Here is an example of todo item fetching hook. the useEffect hook is used here to make API call and it dispatches the action to update todo items. "useEffect" is kind of equivalent to withPropsOnChange HoC from recompose in addition it also has behavior of componentDidMount if no prop name is passed. 
+
 
 ```
 import { useEffect } from "react";
@@ -187,7 +188,47 @@ export const useToDoList = () => {
 }
 ```
 
-Overall its bit different that conventional HoC that people are used to writing using recompose library. 
+Because of all this logic moved to "useToDoList" hook, component looks clear and focuses on presentation aspect. It feels like hooks are endorsing to make it more functional. Recompose is also trying to solve same problem, but the nested component tree makes it harder to understand and troubleshoot code.
+
+```
+const ToDoHome = () => {
+    const { todoItems, openToDoItems, completeToDoItems } = useToDoList();
+    
+
+    return (
+        <Container>
+            <AddToDo />
+            <TodoContainer>
+                <Tabs defaultActiveKey="1" size={"large"}>
+                    <TabPane tab={
+                        <Badge count={openToDoItems.length} overflowCount={99}><TabTitle>Open</TabTitle></Badge>
+                    } key="1">
+                        <ToDoItems todoItems={openToDoItems} />
+
+                    </TabPane>
+                    <TabPane tab={<Badge count={completeToDoItems.length && <CompletedItemBadge>{completeToDoItems.length}</CompletedItemBadge>} overflowCount={99}>
+                        <TabTitle>Completed</TabTitle></Badge>} key="2">
+                        <ToDoItems todoItems={completeToDoItems} />
+
+                    </TabPane>
+                    <TabPane tab={<Badge count={todoItems.length && <AllItemsBadge>{todoItems.length}</AllItemsBadge>} overflowCount={99}><TabTitle>All</TabTitle></Badge>} key="3">
+                        <ToDoItems todoItems={todoItems} />
+                    </TabPane>
+                </Tabs>
+
+            </TodoContainer>
+        </Container>
+    );
+}
+
+export default ToDoHome;
+
+```
+
+
+##In conclusion:
+
+Overall it's bit different than conventional HoC implementation we are used to write using recompose library. I feel its cleaner than recompose implementation. 
 
 Application Demo:
 [https://ashokdudhade.github.io/todo-with-hooks/](https://ashokdudhade.github.io/todo-with-hooks/)
