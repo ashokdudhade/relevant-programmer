@@ -1,35 +1,34 @@
-import React from 'react';
-import Helmet from 'react-helmet';
-import PageTemplateDetails from '../components/PageTemplateDetails';
-import { graphql } from "gatsby"
+import React from 'react'
+import Helmet from 'react-helmet'
+import { graphql } from 'gatsby'
+import Layout from '../components/Layout'
+import PageTemplateDetails from '../components/PageTemplateDetails'
 
 class PageTemplate extends React.Component {
   render() {
-    const siteMetadata = this.props.data.site.siteMetadata;
-    const { title, subtitle } = siteMetadata;
-    const page = this.props.data.markdownRemark;
-    const { title: pageTitle, description: pageDescription } = page.frontmatter;
-    const description = pageDescription !== null ? pageDescription : subtitle;
+    const { title, subtitle } = this.props.data.site.siteMetadata
+    const page = this.props.data.markdownRemark
+    const { title: pageTitle, description: pageDescription } = page.frontmatter
+    const description = pageDescription !== null ? pageDescription : subtitle
 
     return (
-      <div>
-        <Helmet>
-          <title>{`${pageTitle} - ${title}`}</title>
-          <meta name="description" content={description} />
-        </Helmet>
-        <PageTemplateDetails
-          siteMetadata={siteMetadata}
-          page={page}
-        />
-      </div>
-    );
+      <Layout>
+        <div>
+          <Helmet>
+            <title>{`${pageTitle} - ${title}`}</title>
+            <meta name="description" content={description} />
+          </Helmet>
+          <PageTemplateDetails {...this.props} />
+        </div>
+      </Layout>
+    )
   }
 }
 
-export default PageTemplate;
+export default PageTemplate
 
 export const pageQuery = graphql`
-  query ($slug: String!) {
+  query PageBySlug($slug: String!) {
     site {
       siteMetadata {
         title
@@ -59,5 +58,4 @@ export const pageQuery = graphql`
         description
       }
     }
-  }
-`;
+  }`
