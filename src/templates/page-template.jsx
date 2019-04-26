@@ -1,6 +1,7 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 import PageTemplateDetails from '../components/PageTemplateDetails';
+import { graphql } from "gatsby"
 
 class PageTemplate extends React.Component {
   render() {
@@ -28,10 +29,25 @@ class PageTemplate extends React.Component {
 export default PageTemplate;
 
 export const pageQuery = graphql`
-  query PageBySlug($slug: String!) {
+  query ($slug: String!) {
     site {
       siteMetadata {
-        ...sidebarFragment
+        title
+        subtitle
+        copyright
+        menu {
+          label
+          path
+        }
+        author {
+          name
+          email
+          telegram
+          twitter
+          github
+          rss
+          vk
+        }
       }
     }
     markdownRemark(fields: { slug: { eq: $slug } }) {

@@ -62,6 +62,10 @@
                 text-decoration: underline;
             }
         }
+        &-container{
+            display: flex;
+            justify-content: space-between;
+        }
     }
     &__date {
         max-width: $layout-post-single-width;

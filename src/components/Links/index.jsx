@@ -15,17 +15,17 @@ class Links extends React.Component {
       <div className="links">
         <ul className="links__list">
           <li className="links__list-item">
-            <a href={`https://www.twitter.com/${links.twitter}`} target="_blank" >
+            <a href={`https://www.twitter.com/${links.twitter}`} target="_blank" rel="noopener noreferrer" >
               <i className="icon-twitter" />
             </a>
           </li>
           <li className="links__list-item">
-            <a href={`https://www.github.com/${links.github}`} target="_blank" >
+            <a href={`https://www.github.com/${links.github}`} target="_blank" rel="noopener noreferrer">
               <i className="icon-github" />
             </a>
           </li>
           <li className="links__list-item">
-            <a href={`https://www.linkedin.com/in/${links.linkedin}`} target="_blank" >
+            <a href={`https://www.linkedin.com/in/${links.linkedin}`} target="_blank" rel="noopener noreferrer">
               <i className="icon-linkedin" />
             </a>
           </li>
