@@ -1,0 +1,9 @@
+@import "../../assets/scss/variables";
+@import "../../assets/scss/mixins";
+
+.shareWrapper  {
+    .shareIconContainer{
+        display: flex;
+        justify-content: space-around;
+    }
+}

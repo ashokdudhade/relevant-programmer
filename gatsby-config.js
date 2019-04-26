@@ -1,6 +1,10 @@
+const lost = require('lost')
+const pxtorem = require('postcss-pxtorem')
+
 module.exports = {
   siteMetadata: {
     url: 'https://www.relevantprogrammer.com',
+    siteUrl: `https://www.relevantprogrammer.com`,
     title: 'relevant programmer',
     subtitle: 'Full stack software engineer',
     copyright: '© All rights reserved.',
@@ -135,7 +139,7 @@ module.exports = {
             {
               site {
                 siteMetadata {
-                  url
+                  siteUrl
                 }
               }
               allSitePage(
@@ -154,7 +158,7 @@ module.exports = {
         serialize: ({ site, allSitePage }) =>
           allSitePage.edges.map((edge) => {
             return {
-              url: site.siteMetadata.url + edge.node.path,
+              url: site.siteMetadata.siteUrl + edge.node.path,
               changefreq: 'daily',
               priority: 0.7
             };
@@ -164,6 +168,42 @@ module.exports = {
     'gatsby-plugin-offline',
     'gatsby-plugin-catch-links',
     'gatsby-plugin-react-helmet',
-    'gatsby-plugin-postcss-sass'
+    'gatsby-plugin-postcss',
+    {
+      resolve: 'gatsby-plugin-sass',
+      options: {
+        postCssPlugins: [
+          lost(),
+          pxtorem({
+            rootValue: 16,
+            unitPrecision: 5,
+            propList: [
+              'font',
+              'font-size',
+              'line-height',
+              'letter-spacing',
+              'margin',
+              'margin-top',
+              'margin-left',
+              'margin-bottom',
+              'margin-right',
+              'padding',
+              'padding-top',
+              'padding-left',
+              'padding-bottom',
+              'padding-right',
+              'border-radius',
+              'width',
+              'max-width',
+            ],
+            selectorBlackList: [],
+            replace: true,
+            mediaQuery: false,
+            minPixelValue: 0,
+          }),
+        ],
+        precision: 8,
+      },
+    },
   ]
 };

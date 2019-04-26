@@ -52,6 +52,7 @@ class PostTemplateDetails extends React.Component {
           <div className="post-single__footer">
             {tagsBlock}
             <hr />
+            <div className="post-single__footer-container">
             <p className="post-single__footer-text">
               {subtitle}
               <a href={`https://twitter.com/${author.twitter}`} target="_blank" rel="noopener noreferrer">
@@ -60,6 +61,7 @@ class PostTemplateDetails extends React.Component {
             </p>
             {disqusShortname && commentsBlock}
             <Share url={`${url}${post.frontmatter.path}`} title={post.frontmatter.title} />
+          </div>
           </div>
         </div>
       </div>
