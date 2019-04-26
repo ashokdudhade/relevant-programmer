@@ -13,7 +13,7 @@ description: "It a guide to write react hooks application without using recompos
 ---
 
 ## Why react hooks?
-React hooks is a modern way to write the logic in react components without introducing unnecessary nesting of components in the component tree. It simplifies the component structure and makes it easy to read and maintain.
+[React hooks](https://reactjs.org/docs/hooks-intro.html) is a modern way to write the logic in react components without introducing unnecessary nesting of components in the component tree. It simplifies the component structure and makes it easy to read and maintain.
 
 
 ## Why not recompose?
@@ -89,9 +89,9 @@ const markItemStateChange = (isComplete, id, state) => {
       case 'ADD_ITEM':
         return {
           ...state,
-          todoItems: [...state.todoItems, {
-            ...action.item
-          }]
+          todoItems: [...state.todoItems, 
+            action.item
+          ]
         };
       case 'COMPLETE_ITEM':
         return markItemStateChange(true, action.id, state);
@@ -150,7 +150,7 @@ The common structure of components is as follows.
 
 Components use hooks for logic and state management. Any action in the component will trigger method in hook and based on logic defined it will call an API and update state or do some other action in the app.
 
-Here is an example of todo item fetching hook. the useEffect hook is used here to make API call and it dispatches the action to update todo items. "useEffect" is kind of equivalent to withPropsOnChange HoC from recompose in addition it also has behavior of componentDidMount if no prop name is passed. 
+Here is an example of todo item fetching hook. the [useEffect](https://reactjs.org/docs/hooks-effect.html) hook is used here to make API call and it dispatches the action to update todo items. "useEffect" is kind of equivalent to withPropsOnChange HoC from recompose in addition it also has behavior of componentDidMount if no prop name is passed. 
 
 
 ```
