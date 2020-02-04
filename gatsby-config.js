@@ -209,9 +209,9 @@ module.exports = {
       resolve: 'gatsby-plugin-mixpanel',
       options: {
         apiToken: '040e66570cbc2fa5e1170b2a29d9aaca', // required
-        pageViews: null,
+        pageViews: "all",
         trackPageViewsAs: null,
-        getPageViewTransformerFn: null,
+        getPageViewTransformerFn: () => ({url: window.location.pathname}),
       },
     },
   ]
