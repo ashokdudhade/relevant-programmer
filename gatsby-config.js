@@ -205,5 +205,14 @@ module.exports = {
         precision: 8,
       },
     },
+    {
+      resolve: 'gatsby-plugin-mixpanel',
+      options: {
+        apiToken: '040e66570cbc2fa5e1170b2a29d9aaca', // required
+        pageViews: null,
+        trackPageViewsAs: null,
+        getPageViewTransformerFn: null,
+      },
+    },
   ]
 };
