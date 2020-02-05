@@ -1,9 +1,12 @@
 import React from 'react';
 import './style.scss';
 import { OutboundLink } from 'gatsby-plugin-google-analytics'
+import { useMixpanel } from 'gatsby-plugin-mixpanel'
 
 
 function Share({ title, url }) {
+  const mixpanel = useMixpanel();
+
   const encodedURL = encodeURI(url);
   const text = encodeURI(title);
   return (
@@ -13,6 +16,7 @@ function Share({ title, url }) {
         </span>
         <span className="shareIconContainer">
           <OutboundLink
+            onClick={() => mixpanel.track("ShareTwitterClicked")}
             className="shareButton"
             href={`https://twitter.com/intent/tweet?text=${text}&url=${encodedURL}`}
             target="_blank"
@@ -34,6 +38,8 @@ function Share({ title, url }) {
             </svg>
           </OutboundLink>
           <OutboundLink
+            onClick={() => mixpanel.track("ShareLinkedInClicked")}
+
             className="shareButton"
             href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodedURL}&title=${text}`}
             target="_blank"
