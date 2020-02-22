@@ -119,6 +119,7 @@ module.exports = {
       }
     },
     'gatsby-transformer-sharp',
+    `gatsby-plugin-sitemap`,
     'gatsby-plugin-sharp',
     {
       resolve: `gatsby-plugin-google-analytics`,
