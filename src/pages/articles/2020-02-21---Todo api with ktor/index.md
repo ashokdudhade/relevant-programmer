@@ -1,15 +1,15 @@
 ---
-title: Build API using ktor (Todo example)
+title: How to build API in kotlin using ktor framework
 date: "2020-02-21T02:13:55.325Z"
 layout: post
 draft: false
-path: "/posts/ktor-api-todo/"
+path: "/posts/how-to-build-api-in-kotline-using-ktor/"
 category: "kotlin"
 tags:
   - "kotlin"
   - "ktor"
   - "API"
-description: "Guide to build api using kotlin framework ktor"
+description: "Guide to build api in kotlin using ktor framework"
 ---
 
 
@@ -166,7 +166,7 @@ Install CallLogging - This will enable call logging
     }
 ```
 
-Advance call logging - This would add correlationId and requestId on each api call and add it to MDC. MDC properties will be added to each log message that gets executed for http request. 
+Advance call logging for logging context - This would add correlationId and requestId on each api call and add it to MDC. MDC properties will be added to each log message that gets executed for http request. 
 
 ```
     val correlationId = "x-client-request-id"
