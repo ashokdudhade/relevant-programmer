@@ -160,3 +160,5 @@ This is how commits our picked for bisect
 
 
 There are advanced ways to do similar activity, this article considers you are new to git bisect and provide beginners approach. This technique is pretty useful when large number of commits in your branch. 
+
+Demo git repo is available here: https://github.com/ashokdudhade/git-bisect-demo
