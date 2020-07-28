@@ -17,7 +17,7 @@ description: "Guide to use git bisect to identify bug introduced commits"
 
 
 ## Why git bisect?
-As an software engineers we work on complex systems on day to day basis, unintentionally we introduce bugs which will get noticed in later time. `git-bisect` will help you efficiently find that commit with bug introduction.
+As software engineers we work on complex systems on day to day basis, unintentionally we introduce bugs which will get noticed in later time. `git-bisect` will help you efficiently find that commit with bug introduction.
 
 If you notice a bug in application with huge commit history which was introduced in past but the exact commit sha or time is not known, then git bisect is the tool can save your time.
 
@@ -25,12 +25,12 @@ If you notice a bug in application with huge commit history which was introduced
 ## How to use bisect?
 * Checkout master branch and pull latest code from upstream repo
 * Find the commit history which had working and checkout it. `git checkout <<sha>>`
-* Run your code and verify that bug doesn't exits
+* Run your code and verify that bug doesn't exists
 * Run `git bisect start` to initiate bisect
 * Run `git bisect good` to mark this commit as good
 * Run `git checkout master`
 * Run `git bisect bad` to mark latest code as bad commit.
-* It will automatically checkout commit sha which calculated with binary search(Usually this sha would be middle of master to working commit.)
+* It will automatically checkout commit sha which is calculated using binary search(Usually this sha would be middle of master to working commit.)
 * Run your code again if bug exists mark bisect as good or else mark as bad. `git bisect good` (if not bug) or `git bisect bad` (If bug exists)
 * Continue this process till bisect tells your offending commit, and thats the place which introduced the bug.
 * Once you found the place where bug was introduced, then you can conclude the bisect using `git bisect reset`
