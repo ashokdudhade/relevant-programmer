@@ -51,7 +51,7 @@
     "gatsby-source-filesystem": "2.1.48",
     "gatsby-transformer-remark": "2.6.50",
     "gatsby-transformer-sharp": "2.3.14",
-    "lodash": "4.17.19",
+    "lodash": "4.17.21",
     "node-sass": "4.14.1",
     "postcss-browser-reporter": "0.6.0",
     "postcss-cssnext": "3.1.0",
