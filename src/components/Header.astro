@@ -9,18 +9,21 @@ const isHomePage = Astro.url.pathname === '/' || Astro.url.pathname === '';
 <header class="site-header">
   <div class="site-header__inner">
     <a href="/" class="site-header__brand">
+      <span class="site-header__title">{blogName}</span>
+    </a>
+    <span class="site-header__author">
+      <span class="site-header__by">by</span>
       <span class="site-header__photo-wrap">
         <img
           src="/profile-pic.jpg"
           class="site-header__photo"
-          width="32"
-          height="32"
+          width="13"
+          height="13"
           alt={author.name}
         />
       </span>
-      <span class="site-header__title">{blogName}</span>
-    </a>
-    <span class="site-header__by">by {author.name}</span>
+      <span class="site-header__author-name">{author.name}</span>
+    </span>
     <div class="site-header__nav">
       <Menu />
     </div>
