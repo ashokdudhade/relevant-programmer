@@ -1,0 +1,15 @@
+---
+import { siteMetadata } from '../data/site';
+import Links from './Links.astro';
+
+const { copyright } = siteMetadata;
+---
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <Links />
+    <p class="site-footer__copyright">{copyright}</p>
+  </div>
+</footer>
+
+<style lang="scss" src="../assets/scss/components/_footer.scss"></style>

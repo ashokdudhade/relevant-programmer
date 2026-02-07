@@ -1,18 +1,32 @@
-/** 
- * Tags
- */
+@use "sass:color";
+@use "../variables" as *;
 
 .tags {
-    &__list {
-        &-item {
-            &-link {
-                color: $color-base;
-                &:hover,
-                &:focus {
-                    color: $color-primary;
-                    border-bottom: 1px solid $color-primary;
-                }
-            }
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.5rem;
+    &-item {
+      margin: 0;
+      &-link {
+        display: block;
+        padding: 0.75rem 1rem;
+        font-weight: 500;
+        color: $color-base;
+        text-decoration: none;
+        border-radius: $radius-md;
+        border: 1px solid $color-gray-border;
+        background: $color-white;
+        transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+        &:hover,
+        &:focus {
+          border-color: $color-primary;
+          background: color.adjust($color-primary, $lightness: 96%);
+          color: $color-primary;
         }
+      }
     }
+  }
 }

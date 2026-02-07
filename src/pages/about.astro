@@ -1,0 +1,24 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { siteMetadata } from '../data/site';
+
+const pages = await getCollection('pages');
+const about = pages.find((p) => p.data.path === '/about' || p.id.endsWith('about'));
+const rendered = about ? await about.render() : null;
+const Content = rendered?.Content;
+const title = about?.data.title ?? 'About';
+---
+
+<Layout title={`${title} - ${siteMetadata.title}`} description={siteMetadata.subtitle}>
+  <main id="main-content" class="content">
+    <div class="content__inner">
+      <div class="page">
+        <h1 class="page__title">{title}</h1>
+        <div class="page__body">
+          {Content && <Content />}
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>

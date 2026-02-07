@@ -1,0 +1,28 @@
+---
+import { siteMetadata } from '../data/site';
+import '../assets/fonts/fontello-771c82e0/css/fontello.css';
+
+const author = siteMetadata.author;
+---
+
+<div class="links">
+  <ul class="links__list">
+    <li class="links__list-item">
+      <a href={`https://www.twitter.com/${author.twitter}`} target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+        <i class="icon-twitter"></i>
+      </a>
+    </li>
+    <li class="links__list-item">
+      <a href={`https://www.github.com/${author.github}`} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+        <i class="icon-github"></i>
+      </a>
+    </li>
+    <li class="links__list-item">
+      <a href={`https://www.linkedin.com/in/${author.linkedin}`} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+        <i class="icon-linkedin"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+<style lang="scss" src="../assets/scss/components/_links.scss"></style>

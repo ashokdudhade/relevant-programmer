@@ -1,0 +1,30 @@
+---
+import { siteMetadata } from '../data/site';
+import Menu from './Menu.astro';
+
+const { author, title: blogName } = siteMetadata;
+const isHomePage = Astro.url.pathname === '/' || Astro.url.pathname === '';
+---
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a href="/" class="site-header__brand">
+      <span class="site-header__photo-wrap">
+        <img
+          src="/profile-pic.jpg"
+          class="site-header__photo"
+          width="32"
+          height="32"
+          alt={author.name}
+        />
+      </span>
+      <span class="site-header__title">{blogName}</span>
+    </a>
+    <span class="site-header__by">by {author.name}</span>
+    <div class="site-header__nav">
+      <Menu />
+    </div>
+  </div>
+</header>
+
+<style lang="scss" src="../assets/scss/components/_header.scss"></style>

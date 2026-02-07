@@ -1,4 +1,5 @@
 @charset "UTF-8";
 
-@import "pages/tags";
-@import "pages/categories";
+@use "variables" as *;
+@use "pages/tags";
+@use "pages/categories";

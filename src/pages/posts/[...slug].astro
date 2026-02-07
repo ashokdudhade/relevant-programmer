@@ -1,0 +1,63 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Share from '../../components/Share.astro';
+import { getCollection } from 'astro:content';
+import { siteMetadata } from '../../data/site';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', (p) => !p.data.draft);
+  return posts.map((entry) => {
+    const path = entry.data.path.replace(/\/$/, '');
+    const slugSegment = path.replace(/^\/posts\//, '');
+    return { params: { slug: slugSegment }, props: { entry } };
+  });
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const post = entry.data;
+const tagSlugs = post.tags.map((t) => `/tags/${t.toLowerCase().replace(/\s+/g, '-')}/`);
+const description = post.description ?? siteMetadata.subtitle;
+const fullUrl = siteMetadata.url + (post.path.startsWith('/') ? post.path : '/' + post.path);
+---
+
+<Layout title={`${post.title} - ${siteMetadata.title}`} description={description}>
+  <main id="main-content" class="content">
+    <div class="content__inner">
+      <a class="post-single__home-button" href="/">← All Articles</a>
+        <div class="post-single">
+          <div class="post-single__inner">
+            <h1 class="post-single__title">{post.title}</h1>
+            <p class="post-single__date">
+              Published {new Date(post.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+            </p>
+            <div class="post-single__body">
+              <Content />
+            </div>
+          </div>
+          <div class="post-single__footer">
+            <div class="post-single__tags">
+              <ul class="post-single__tags-list">
+                {post.tags.map((tag, i) => (
+                  <li class="post-single__tags-list-item">
+                    <a href={tagSlugs[i]} class="post-single__tags-list-item-link">{tag}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div class="post-single__footer-container">
+              <p class="post-single__footer-text">
+                {siteMetadata.subtitle}
+                <a href={`https://twitter.com/${siteMetadata.author.twitter}`} target="_blank" rel="noopener noreferrer">
+                  <br /> <strong>{siteMetadata.author.name}</strong> on Twitter
+                </a>
+              </p>
+              <Share title={post.title} url={fullUrl} />
+            </div>
+          </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style lang="scss" src="../../assets/scss/components/_post-single.scss"></style>

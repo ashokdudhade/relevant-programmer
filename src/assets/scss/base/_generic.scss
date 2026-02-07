@@ -1,6 +1,8 @@
 /** 
  * Generic
  */
+@use "../variables" as *;
+@use "../mixins" as *;
 
 html {
     font-size: $typographic-root-font-size;
@@ -143,13 +145,40 @@ figcaption {
 }
 
 .layout {
-    lost-center: $layout-width;
+    max-width: $layout-width;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.layout__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
 }
 
 .content {
     &__inner {
-        padding: 25px 20px;
+        padding: 1.5rem 0 3rem;
+        @include breakpoint-sm {
+            padding: 2rem 0 4rem;
+        }
     }
+    &__heading {
+        font-size: 1.75rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        margin: 0 0 1.5rem;
+        color: $color-base;
+    }
+}
+
+.page__title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: $color-base;
 }
 
 @include breakpoint-sm {
@@ -164,19 +193,5 @@ figcaption {
     .float-left {
         float: left;
     }
-    .content {
-        lost-column: 7/12;
-        &__inner {
-            padding: 30px 20px;
-        }
-    }
 }
 
-@include breakpoint-md {
-    .content {
-        lost-column: 2/3;
-        &__inner {
-            padding: 40px 35px;
-        }
-    }
-}

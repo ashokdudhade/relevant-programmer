@@ -1,0 +1,38 @@
+@use "sass:color";
+@use "../variables" as *;
+
+.shareWrapper {
+  p {
+    margin: 0 0 0.5rem;
+    font-size: $typographic-meta-font-size;
+    font-weight: 600;
+    color: $color-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .shareIconContainer {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .shareButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: $radius-md;
+    background: $color-gray-bg;
+    color: $color-muted;
+    transition: background 0.15s ease, color 0.15s ease;
+    &:hover,
+    &:focus {
+      background: color.adjust($color-primary, $lightness: 90%);
+      color: $color-primary;
+    }
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
