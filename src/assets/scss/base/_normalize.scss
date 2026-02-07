@@ -30,13 +30,11 @@ body {
 
 /**
  * Add the correct display in IE 9-.
+ * Exclude site components so .site-footer, .site-header, .menu (nav) styles apply.
  */
 
 article,
 aside,
-footer,
-header,
-nav,
 section {
 	display: block;
 }
