@@ -1,0 +1,43 @@
+---
+import { siteMetadata } from '../data/site';
+import Menu from './Menu.astro';
+import Links from './Links.astro';
+
+const { author, title: blogName, subtitle, copyright, menu } = siteMetadata;
+const isHomePage = Astro.url.pathname === '/' || Astro.url.pathname === '';
+---
+
+<div class="sidebar">
+  <div class="sidebar__inner">
+    <div class="sidebar__author">
+      <a href="/" class="sidebar__author-photo-wrap">
+        <img
+          src="/profile-pic.jpg"
+          class="sidebar__author-photo"
+          width="56"
+          height="56"
+          alt={author.name}
+        />
+      </a>
+      {isHomePage ? (
+        <h1 class="sidebar__author-title">
+          <a class="sidebar__author-title-link" href="/">{blogName}</a>
+        </h1>
+      ) : (
+        <h2 class="sidebar__author-title">
+          <a class="sidebar__author-title-link" href="/">{blogName}</a>
+        </h2>
+      )}
+      <p class="sidebar__author-name">{author.name}</p>
+      <p class="sidebar__author-subtitle">{subtitle}</p>
+    </div>
+    <div>
+      <span class="sidebar__nav-label" aria-hidden="true">Navigation</span>
+      <Menu />
+      <Links />
+      <p class="sidebar__copyright">{copyright}</p>
+    </div>
+  </div>
+</div>
+
+<style lang="scss" src="../assets/scss/components/_sidebar.scss"></style>

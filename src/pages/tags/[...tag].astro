@@ -1,0 +1,54 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Post from '../../components/Post.astro';
+import { getCollection } from 'astro:content';
+import { siteMetadata } from '../../data/site';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
+  const tagSet = new Set<string>();
+  posts.forEach((p) => {
+    p.data.tags.forEach((t: string) => tagSet.add(t.toLowerCase().replace(/\s+/g, '-')));
+  });
+  return Array.from(tagSet).map((tag) => ({
+    params: { tag },
+    props: { tagSlug: tag },
+  }));
+}
+
+const { tagSlug } = Astro.props;
+const tagName = tagSlug.replace(/-/g, ' ');
+const posts = (await getCollection('blog'))
+  .filter(
+    (p) =>
+      !p.data.draft &&
+      p.data.tags.some((t: string) => t.toLowerCase().replace(/\s+/g, '-') === tagSlug)
+  )
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+function categorySlugUrl(cat: string) {
+  return '/categories/' + cat.toLowerCase().replace(/\s+/g, '-') + '/';
+}
+---
+
+<Layout title={tagName + " - " + siteMetadata.title} description={siteMetadata.subtitle}>
+  <main id="main-content" class="content">
+    <div class="content__inner">
+      <div class="page">
+        <h1 class="page__title">All Posts tagged as &quot;{tagName}&quot;</h1>
+        <div class="page__body">
+          {posts.map((entry) => (
+            <Post
+              title={entry.data.title}
+              date={entry.data.date}
+              category={entry.data.category}
+              description={entry.data.description}
+              slug={entry.data.path.startsWith('/') ? entry.data.path : '/' + entry.data.path}
+              categorySlug={categorySlugUrl(entry.data.category)}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>

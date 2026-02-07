@@ -1,0 +1,42 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { siteMetadata } from '../../data/site';
+
+const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
+const categoryCounts = new Map<string, number>();
+posts.forEach((p) => {
+  const c = p.data.category;
+  categoryCounts.set(c, (categoryCounts.get(c) ?? 0) + 1);
+});
+const categories = Array.from(categoryCounts.entries()).sort((a, b) => a[0].localeCompare(b[0]));
+
+function categorySlug(cat: string) {
+  return '/categories/' + cat.toLowerCase().replace(/\s+/g, '-') + '/';
+}
+---
+
+<Layout title={`Categories - ${siteMetadata.title}`} description={siteMetadata.subtitle}>
+  <main id="main-content" class="content">
+    <div class="content__inner">
+      <div class="page">
+        <h1 class="page__title">Categories</h1>
+        <div class="page__body">
+          <div class="categories">
+            <ul class="categories__list">
+              {categories.map(([name, count]) => (
+                <li class="categories__list-item">
+                  <a href={categorySlug(name)} class="categories__list-item-link">
+                    {name} ({count})
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style lang="scss" src="../../assets/scss/pages/_categories.scss"></style>

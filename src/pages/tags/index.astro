@@ -1,0 +1,43 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { siteMetadata } from '../../data/site';
+
+const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
+const tagCounts = new Map<string, number>();
+posts.forEach((p) => {
+  p.data.tags.forEach((t: string) => {
+    tagCounts.set(t, (tagCounts.get(t) ?? 0) + 1);
+  });
+});
+const tags = Array.from(tagCounts.entries()).sort((a, b) => a[0].localeCompare(b[0]));
+
+function tagSlug(tag: string) {
+  return `/tags/${tag.toLowerCase().replace(/\s+/g, '-')}/`;
+}
+---
+
+<Layout title={`Tags - ${siteMetadata.title}`} description={siteMetadata.subtitle}>
+  <main id="main-content" class="content">
+    <div class="content__inner">
+      <div class="page">
+        <h1 class="page__title">Tags</h1>
+        <div class="page__body">
+          <div class="tags">
+            <ul class="tags__list">
+              {tags.map(([name, count]) => (
+                <li class="tags__list-item">
+                  <a href={tagSlug(name)} class="tags__list-item-link">
+                    {name} ({count})
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style lang="scss" src="../../assets/scss/pages/_tags.scss"></style>

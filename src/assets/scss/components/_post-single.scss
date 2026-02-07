@@ -1,0 +1,183 @@
+@use "sass:color";
+@use "../variables" as *;
+@use "../mixins" as *;
+
+.post-single {
+  &__inner {
+    max-width: $layout-post-single-max-width;
+    margin: 0 auto;
+    padding: 0 0 3rem;
+  }
+  &__title {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    margin: 0 0 1rem;
+    color: $color-base;
+    font-family: $typographic-font-family;
+    @include breakpoint-md {
+      font-size: 2.5rem;
+      margin-bottom: 1.25rem;
+    }
+  }
+  &__body {
+    font-family: $typographic-font-serif;
+    font-size: 1.125rem;
+    line-height: 1.75;
+    color: $color-base;
+    max-width: 65ch;
+    margin: 0 auto;
+    :global(h2) {
+      font-family: $typographic-font-family;
+      font-size: 1.375rem;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+    }
+    :global(h3) {
+      font-family: $typographic-font-family;
+      font-size: 1.125rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    :global(p) {
+      margin-bottom: 1.25rem;
+    }
+    :global(a) {
+      color: $color-primary;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      &:hover {
+        color: $color-primary-hover;
+      }
+    }
+    :global(pre),
+    :global(code) {
+      font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, monospace;
+      font-size: 0.9em;
+    }
+    :global(pre) {
+      background: $color-gray-bg;
+      padding: 1.25rem;
+      border-radius: $radius-md;
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      border: 1px solid $color-gray-border;
+    }
+    :global(:not(pre) > code) {
+      background: $color-gray-bg;
+      padding: 0.2em 0.4em;
+      border-radius: $radius-sm;
+      font-size: 0.9em;
+    }
+    :global(blockquote) {
+      margin: 1.5rem 0;
+      padding-left: 1.25rem;
+      border-left: 4px solid $color-primary;
+      color: $color-muted;
+      font-style: italic;
+    }
+    :global(ul),
+    :global(ol) {
+      margin-bottom: 1.25rem;
+      padding-left: 1.5rem;
+    }
+    :global(img) {
+      border-radius: $radius-md;
+      max-width: 100%;
+      height: auto;
+    }
+  }
+  &__date {
+    font-size: $typographic-meta-font-size;
+    color: $color-muted;
+    margin-bottom: 1.5rem;
+  }
+  &__tags {
+    margin-bottom: 1rem;
+    &-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      &-item {
+        margin: 0;
+        &-link {
+          display: inline-block;
+          padding: 0.35rem 0.75rem;
+          font-size: $typographic-meta-font-size;
+          font-weight: 500;
+          background: $color-gray-bg;
+          color: $color-muted;
+          text-decoration: none;
+          border-radius: $radius-full;
+          transition: background 0.15s ease, color 0.15s ease;
+          &:hover,
+          &:focus {
+            background: color.adjust($color-primary, $lightness: 88%);
+            color: $color-primary;
+          }
+        }
+      }
+    }
+  }
+  &__footer {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid $color-gray-border;
+    &-text {
+      font-size: 0.9375rem;
+      color: $color-muted;
+      margin-bottom: 1rem;
+      & :global(a) {
+        color: $color-primary;
+        text-decoration: none;
+        &:hover { text-decoration: underline; }
+      }
+    }
+    &-container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+  }
+  &__home-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    color: $color-muted;
+    background: $color-gray-bg;
+    text-decoration: none;
+    border-radius: $radius-md;
+    transition: background 0.15s ease, color 0.15s ease;
+    margin-bottom: 1.5rem;
+    &:hover,
+    &:focus {
+      background: $color-gray-border;
+      color: $color-base;
+    }
+    &::before {
+      content: "← ";
+    }
+  }
+}
+
+@include breakpoint-md {
+  .post-single {
+    &__home-button {
+      position: fixed;
+      top: 1.5rem;
+      left: 1.5rem;
+      z-index: 10;
+      margin-bottom: 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+  }
+}

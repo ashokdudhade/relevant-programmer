@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Post from '../components/Post.astro';
+import { getCollection } from 'astro:content';
+import { siteMetadata } from '../data/site';
+
+const posts = (await getCollection('blog'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+function categorySlug(cat: string) {
+  return `/categories/${cat.toLowerCase().replace(/\s+/g, '-')}/`;
+}
+---
+
+<Layout title={siteMetadata.title} description={siteMetadata.subtitle}>
+  <main id="main-content" class="content">
+    <div class="content__inner">
+      {posts.map((entry) => (
+        <Post
+          title={entry.data.title}
+          date={entry.data.date}
+          category={entry.data.category}
+          description={entry.data.description}
+          slug={entry.data.path.startsWith('/') ? entry.data.path : '/' + entry.data.path}
+          categorySlug={categorySlug(entry.data.category)}
+        />
+      ))}
+    </div>
+  </main>
+</Layout>

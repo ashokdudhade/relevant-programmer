@@ -1,0 +1,26 @@
+---
+import { siteMetadata } from '../data/site';
+
+const menu = siteMetadata.menu;
+---
+
+<nav class="menu" aria-label="Main">
+  <ul class="menu__list">
+    {menu.map((item) => {
+      const isActive = item.path === '/' 
+        ? (Astro.url.pathname === '/' || Astro.url.pathname.startsWith('/posts/'))
+        : Astro.url.pathname === item.path;
+      return (
+      <li class="menu__list-item">
+        <a
+          href={item.path}
+          class:list={['menu__list-item-link', isActive && 'menu__list-item-link--active']}
+        >
+          {item.label}
+        </a>
+      </li>
+    );})}
+  </ul>
+</nav>
+
+<style lang="scss" src="../assets/scss/components/_menu.scss"></style>

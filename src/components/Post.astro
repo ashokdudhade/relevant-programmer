@@ -1,0 +1,28 @@
+---
+interface Props {
+  title: string;
+  date: Date;
+  category: string;
+  description: string;
+  slug: string;
+  categorySlug: string;
+}
+
+const { title, date, category, description, slug, categorySlug } = Astro.props;
+const formattedDate = new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(date);
+const dateTime = new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(date);
+---
+
+<article class="post">
+  <h2 class="post__title">
+    <a class="post__title-link" href={slug}>{title}</a>
+  </h2>
+  <p class="post__meta">
+    <time datetime={dateTime}>{formattedDate}</time>
+    <span class="post__meta-sep"> · </span>
+    <a href={categorySlug} class="post__meta-category">{category}</a>
+  </p>
+  <p class="post__description">{description}</p>
+</article>
+
+<style lang="scss" src="../assets/scss/components/_post.scss"></style>

@@ -1,0 +1,101 @@
+---
+import '../assets/scss/init.scss';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = 'relevant programmer', description } = Astro.props;
+const fullTitle = title;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{fullTitle}</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div class="layout">
+      <Header />
+      <slot />
+      <Footer />
+    </div>
+  </body>
+</html>
+
+<style is:global>
+  .skip-link {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    padding: 0.75rem 1.25rem;
+    background: #0f766e;
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+    z-index: 100;
+    transition: top 0.15s ease;
+  }
+  .skip-link:focus {
+    top: 0;
+    outline: none;
+  }
+  html { box-sizing: border-box; }
+  *, *::before, *::after { box-sizing: inherit; }
+  body {
+    margin: 0;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #1a1a1a;
+    line-height: 1.65;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: #ffffff;
+  }
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid #0f766e;
+    outline-offset: 2px;
+  }
+  .layout {
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1.5rem 24px 3rem;
+  }
+  /* Header avatar: force circular */
+  .site-header__photo-wrap {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px;
+    min-height: 32px;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+    flex-shrink: 0;
+    border: 1px solid #e2e8f0;
+    display: block;
+  }
+  .site-header__photo-wrap img,
+  .site-header__photo {
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 32px;
+    min-height: 32px;
+    object-fit: cover !important;
+    display: block !important;
+    margin: 0 !important;
+    border-radius: 0;
+    vertical-align: top;
+  }
+</style>

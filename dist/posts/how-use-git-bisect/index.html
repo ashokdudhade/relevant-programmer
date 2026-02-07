@@ -1,0 +1,97 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="Guide to use git bisect to identify bug introduced commits"><title>How to use git bisect? - relevant programmer</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/about.DHjNBNdt.css"></head> <body> <a href="#main-content" class="skip-link">Skip to main content</a> <div class="layout"> <header class="site-header"> <div class="site-header__inner"> <a href="/" class="site-header__brand"> <span class="site-header__photo-wrap"> <img src="/profile-pic.jpg" class="site-header__photo" width="32" height="32" alt="Ashok Dudhade"> </span> <span class="site-header__title">relevant programmer</span> </a> <span class="site-header__by">by Ashok Dudhade</span> <div class="site-header__nav"> <nav class="menu" aria-label="Main"> <ul class="menu__list"> <li class="menu__list-item"> <a href="/" class="menu__list-item-link menu__list-item-link--active"> Articles </a> </li><li class="menu__list-item"> <a href="/about/" class="menu__list-item-link"> About </a> </li> </ul> </nav>  </div> </div> </header>   <main id="main-content" class="content"> <div class="content__inner"> <a class="post-single__home-button" href="/">← All Articles</a> <div class="post-single"> <div class="post-single__inner"> <h1 class="post-single__title">How to use git bisect?</h1> <p class="post-single__date">
+Published 24 Jul 2020 </p> <div class="post-single__body"> <h2 id="what-is-git-bisect">What is git bisect?</h2>
+<p><code>git-bisect - Use binary search to find the commit that introduced a bug</code></p>
+<h2 id="why-git-bisect">Why git bisect?</h2>
+<p>As software engineers we work on complex systems on day to day basis, unintentionally we introduce bugs which will get noticed in later time. <code>git-bisect</code> will help you efficiently find that commit with bug introduction.</p>
+<p>If you notice a bug in application with huge commit history which was introduced in past but the exact commit sha or time is not known, then git bisect is the tool can save your time.</p>
+<h2 id="how-to-use-bisect">How to use bisect?</h2>
+<ul>
+<li>Checkout master branch and pull latest code from upstream repo</li>
+<li>Find the commit history which had working and checkout it. <code>git checkout &#x3C;&#x3C;sha>></code></li>
+<li>Run your code and verify that bug doesn’t exists</li>
+<li>Run <code>git bisect start</code> to initiate bisect</li>
+<li>Run <code>git bisect good</code> to mark this commit as good</li>
+<li>Run <code>git checkout master</code></li>
+<li>Run <code>git bisect bad</code> to mark latest code as bad commit.</li>
+<li>It will automatically checkout commit sha which is calculated using binary search(Usually this sha would be middle of master to working commit.)</li>
+<li>Run your code again if bug exists mark bisect as good or else mark as bad. <code>git bisect good</code> (if not bug) or <code>git bisect bad</code> (If bug exists)</li>
+<li>Continue this process till bisect tells your offending commit, and thats the place which introduced the bug.</li>
+<li>Once you found the place where bug was introduced, then you can conclude the bisect using <code>git bisect reset</code></li>
+</ul>
+<p>Example:</p>
+<p>Let say we have git repo which has 10 commits, we don’t know what commit caused the bug but we know bug was not there in initial commit. So we will start bisect with latest commit and initial commit.</p>
+<p>Also lets assume that bug was introduced when export call return “Export commit 3”</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>➜ python index.py --export /test</span></span>
+<span class="line"><span>Export commit 3</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>Clone test repo on your local</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>git clone https://github.com/ashokdudhade/git-bisect-demo.git</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>All commits:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>git log --oneline</span></span>
+<span class="line"><span></span></span></code></pre>
+<p><img src="/images/how-use-git-bisect/01_commits.png" alt="Commits"></p>
+<p>Checkout the branch where we know commit is good</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>git checkout 06c5c14</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>Start the bisect</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>git bisect start</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>Make sure the application is working state</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>➜  git-bisect-demo git:(06c5c14) python index.py -e l</span></span>
+<span class="line"><span>Export initial</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>Mark the commit as good</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>git bisect good</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>Checkout master
+<code>git checkout master</code></p>
+<p>Mark the master as bad commit as we know it has bug
+<code>git bisect bad</code></p>
+<p>It would output something like below and it will checkout next commit
+<img src="/images/how-use-git-bisect/02_bisect_bad.png" alt="Bisect bad"></p>
+<p>Run the application to see if bug is there</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>➜  git-bisect-demo git:(65aee15) python index.py -e l</span></span>
+<span class="line"><span>Export commit 4</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span></code></pre>
+<p>Mark this as bad commit because “Export commit 4” displayed and we expect “Export commit 3”</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>git bisect bad</span></span>
+<span class="line"><span></span></span></code></pre>
+<p><img src="/images/how-use-git-bisect/03_bisect_bad.png" alt="Bisect bad"></p>
+<p>Run the application to see if bug is there</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>➜  git-bisect-demo git:(5f8210c) python index.py -e l</span></span>
+<span class="line"><span>Export commit 3</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>This is the message we are expecting so we will mark it as good</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>git bisect good</span></span>
+<span class="line"><span></span></span></code></pre>
+<p><img src="/images/how-use-git-bisect/04_bisect_good.png" alt="Bisect good"></p>
+<p>Run the application to see if bug is there</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>➜  git-bisect-demo git:(2754957) python index.py -e l</span></span>
+<span class="line"><span>Export commit 3</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span></code></pre>
+<p>This is the message we are expecting so we will mark it as good</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>git bisect good</span></span>
+<span class="line"><span></span></span></code></pre>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>➜  git-bisect-demo git:(2754957) git bisect good</span></span>
+<span class="line"><span>65aee158c45ac1d901293b413aa3efe89aea262e is the first bad commit</span></span>
+<span class="line"><span>commit 65aee158c45ac1d901293b413aa3efe89aea262e</span></span>
+<span class="line"><span>Author: </span></span>
+<span class="line"><span>Date:   Sat Jul 25 08:04:57 2020 -0500</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    5th commit</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>:100644 100644 5a6e0ca2db884e650af657f600586661caa6d236 fa9cd39e2fe3d84dff6f0026cf6➜</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>This is the commit which introduced the bug, now we can go and fix it at proper location.</p>
+<p>Conclude the bisect</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>git bisect reset</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>This will bring back to initial checkout, now you can checkout master and fix the issue.</p>
+<p>This is how commits our picked for bisect</p>
+<p><img src="/images/how-use-git-bisect/05_git_bisect.png" alt="Bisect "></p>
+<p>There are advanced ways to do similar activity, this article considers you are new to git bisect and provide beginners approach. This technique is pretty useful when large number of commits in your branch.</p>
+<p>Demo git repo is available here: <a href="https://github.com/ashokdudhade/git-bisect-demo">https://github.com/ashokdudhade/git-bisect-demo</a></p> </div> </div> <div class="post-single__footer"> <div class="post-single__tags"> <ul class="post-single__tags-list"> <li class="post-single__tags-list-item"> <a href="/tags/git/" class="post-single__tags-list-item-link">git</a> </li><li class="post-single__tags-list-item"> <a href="/tags/tools/" class="post-single__tags-list-item-link">tools</a> </li> </ul> </div> <div class="post-single__footer-container"> <p class="post-single__footer-text"> Full stack software engineer <a href="https://twitter.com/ashokdudhade" target="_blank" rel="noopener noreferrer"> <br> <strong>Ashok Dudhade</strong> on Twitter
+</a> </p> <div class="shareWrapper"> <p> <span>Share This Post</span> <span class="shareIconContainer"> <a class="shareButton" href="https://twitter.com/intent/tweet?text=How%20to%20use%20git%20bisect%3F&url=https%3A%2F%2Fwww.relevantprogrammer.com%2Fposts%2Fhow-use-git-bisect%2F" target="_blank" aria-label="Share on Twitter" rel="noopener noreferrer"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path> </svg> </a> <a class="shareButton" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.relevantprogrammer.com%2Fposts%2Fhow-use-git-bisect%2F&title=How%20to%20use%20git%20bisect%3F" target="_blank" aria-label="Share on LinkedIn" rel="noopener noreferrer"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path> <rect x="2" y="9" width="4" height="12"></rect> <circle cx="4" cy="4" r="2"></circle> </svg> </a> </span> </p> </div>  </div> </div> </div> </div> </main>  <footer class="site-footer"> <div class="site-footer__inner"> <div class="links"> <ul class="links__list"> <li class="links__list-item"> <a href="https://www.twitter.com/ashokdudhade" target="_blank" rel="noopener noreferrer" aria-label="Twitter"> <i class="icon-twitter"></i> </a> </li> <li class="links__list-item"> <a href="https://www.github.com/ashokdudhade" target="_blank" rel="noopener noreferrer" aria-label="GitHub"> <i class="icon-github"></i> </a> </li> <li class="links__list-item"> <a href="https://www.linkedin.com/in/ashok-dudhade-440a35a" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"> <i class="icon-linkedin"></i> </a> </li> </ul> </div>  <p class="site-footer__copyright">© All rights reserved.</p> </div> </footer>  </div> </body></html> 
