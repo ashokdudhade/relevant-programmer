@@ -225,6 +225,57 @@ const fullTitle = title;
     align-items: center;
     justify-content: center;
   }
+  /* Main page — post list (title, meta, description) */
+  .content .post {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .content .post:first-child {
+    padding-top: 0;
+  }
+  .content .post:last-child {
+    border-bottom: 0;
+    padding-bottom: 0.25rem;
+  }
+  .content .post .post__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+    margin: 0 0 0.375rem;
+  }
+  .content .post .post__title-link {
+    color: #1a1a1a;
+    text-decoration: none;
+  }
+  .content .post .post__title-link:hover,
+  .content .post .post__title-link:focus {
+    color: #0f766e;
+  }
+  .content .post .post__meta {
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: #64748b;
+    margin: 0 0 0.5rem;
+    letter-spacing: 0.01em;
+  }
+  .content .post .post__meta-category {
+    color: #64748b;
+    text-decoration: none;
+  }
+  .content .post .post__meta-category:hover,
+  .content .post .post__meta-category:focus {
+    color: #0f766e;
+    text-decoration: underline;
+  }
+  .content .post .post__description {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: #64748b;
+    margin: 0;
+    max-width: 56ch;
+    letter-spacing: 0.01em;
+  }
   .post-single__inner {
     max-width: 720px;
     margin: 0 auto;

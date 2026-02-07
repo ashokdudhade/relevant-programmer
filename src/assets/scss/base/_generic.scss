@@ -169,6 +169,14 @@ figcaption {
         letter-spacing: -0.02em;
         margin: 0 0 1.5rem;
         color: $color-base;
+        &--home {
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            color: $color-muted;
+            margin-bottom: 1.25rem;
+        }
     }
 }
 
