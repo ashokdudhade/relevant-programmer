@@ -4,6 +4,7 @@
   "type": "module",
   "version": "2.0.2",
   "scripts": {
+    "postinstall": "patch-package",
     "develop": "astro dev",
     "dev": "astro dev",
     "build": "astro build",
@@ -12,9 +13,11 @@
     "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.0",
     "astro": "^4.16.0"
   },
   "devDependencies": {
+    "patch-package": "^8.0.1",
     "sass": "^1.69.0"
   }
 }
