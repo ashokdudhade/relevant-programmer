@@ -1,0 +1,195 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="It a guide to write react hooks application without using recompose or redux dependencies"><title>React hooks app structure - relevant programmer</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/about.DHjNBNdt.css"></head> <body> <a href="#main-content" class="skip-link">Skip to main content</a> <div class="layout"> <header class="site-header"> <div class="site-header__inner"> <a href="/" class="site-header__brand"> <span class="site-header__photo-wrap"> <img src="/profile-pic.jpg" class="site-header__photo" width="32" height="32" alt="Ashok Dudhade"> </span> <span class="site-header__title">relevant programmer</span> </a> <span class="site-header__by">by Ashok Dudhade</span> <div class="site-header__nav"> <nav class="menu" aria-label="Main"> <ul class="menu__list"> <li class="menu__list-item"> <a href="/" class="menu__list-item-link menu__list-item-link--active"> Articles </a> </li><li class="menu__list-item"> <a href="/about/" class="menu__list-item-link"> About </a> </li> </ul> </nav>  </div> </div> </header>   <main id="main-content" class="content"> <div class="content__inner"> <a class="post-single__home-button" href="/">← All Articles</a> <div class="post-single"> <div class="post-single__inner"> <h1 class="post-single__title">React hooks app structure</h1> <p class="post-single__date">
+Published 19 Apr 2019 </p> <div class="post-single__body"> <h2 id="why-react-hooks">Why react hooks?</h2>
+<p><a href="https://reactjs.org/docs/hooks-intro.html">React hooks</a> is a modern way to write the logic in react components without introducing unnecessary nesting of components in the component tree. It simplifies the component structure and makes it easy to read and maintain.</p>
+<h2 id="why-not-recompose">Why not recompose?</h2>
+<p>Recompose library is the awesome framework which helps write react application using higher order component but unfortunately
+<a href="https://github.com/acdlite/recompose#a-note-from-the-author-acdlite-oct-25-2018">recompose is discontinuing</a> and react hooks is supposed to help to solve problems in a better way.</p>
+<h2 id="what-does-this-article-cover">What does this article cover?</h2>
+<p>A new way of writing react application using react hooks and structure of the app. We will build a standard todo application and structure it to be readable. At the high level below is the structure of the todo app.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>└── src</span></span>
+<span class="line"><span>    ├── api</span></span>
+<span class="line"><span>    ├── components</span></span>
+<span class="line"><span>    ├── hooks</span></span>
+<span class="line"><span>    ├── providers</span></span>
+<span class="line"><span>    └── reducers</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>This structure could be used for any kind of react app.</p>
+<ul>
+<li>
+<p>api</p>
+<p>This directory will have all methods which make calls to an API.</p>
+</li>
+<li>
+<p>components</p>
+<p>This directory consists all react UI components</p>
+</li>
+<li>
+<p>hooks</p>
+<p>This directory has all logic needed for components to handle actions and data passing, manipulations and component lifecycle.</p>
+</li>
+<li>
+<p>providers</p>
+<p>This directory contains all context API providers for react app</p>
+</li>
+<li>
+<p>reducers</p>
+<p>This directory has all reducers which help manages state via actions</p>
+</li>
+</ul>
+<p>Let’s start creating Todo app</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>create-react-app todo-with-hooks</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>Create an application level store for managing todo items state.</p>
+<p>App.js</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>import React, {useReducer} from 'react';</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>const initialState = {</span></span>
+<span class="line"><span>  todoItems: []</span></span>
+<span class="line"><span>};</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>const store = useReducer(todoReducer, initialState);</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>todoReducer.js is reducer function which doesn’t have any state in it, its idempotent function. It’s the same as a redux reducer, but we are not using redux in this application</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>const markItemStateChange = (isComplete, id, state) => {</span></span>
+<span class="line"><span>    const item = state.todoItems.find(t => t.id === id);</span></span>
+<span class="line"><span>    if(item){</span></span>
+<span class="line"><span>      item.isComplete = isComplete;</span></span>
+<span class="line"><span>      return {</span></span>
+<span class="line"><span>        ...state, </span></span>
+<span class="line"><span>        todoItems: [...state.todoItems]</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>    return state;</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>  </span></span>
+<span class="line"><span> export const todoReducer = (state, action) => {</span></span>
+<span class="line"><span>    switch (action.type) {</span></span>
+<span class="line"><span>      case 'ADD_ITEM':</span></span>
+<span class="line"><span>        return {</span></span>
+<span class="line"><span>          ...state,</span></span>
+<span class="line"><span>          todoItems: [...state.todoItems, </span></span>
+<span class="line"><span>            action.item</span></span>
+<span class="line"><span>          ]</span></span>
+<span class="line"><span>        };</span></span>
+<span class="line"><span>      case 'COMPLETE_ITEM':</span></span>
+<span class="line"><span>        return markItemStateChange(true, action.id, state);</span></span>
+<span class="line"><span>      case 'UNDO_COMPLETE_ITEM':</span></span>
+<span class="line"><span>        return markItemStateChange(false, action.id, state);</span></span>
+<span class="line"><span>      case 'TODO_ITEMS':</span></span>
+<span class="line"><span>        return {</span></span>
+<span class="line"><span>          ...state,</span></span>
+<span class="line"><span>          todoItems: action.todoItems</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span>      default:</span></span>
+<span class="line"><span>        throw new Error('Unexpected action');</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>  };</span></span>
+<span class="line"><span>  </span></span>
+<span class="line"><span></span></span></code></pre>
+<p>ToDo Provider</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>import React from 'react';</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>export const ToDoContext = React.createContext({});</span></span>
+<span class="line"><span>export const TodoProvider = ToDoContext.Provider;</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>Now adding everything together will look like below, we will passing store to the provider we have created.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>const App = () => {</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  const store = useReducer(todoReducer, initialState);</span></span>
+<span class="line"><span>  return (</span></span>
+<span class="line"><span>    &#x3C;div className="App"></span></span>
+<span class="line"><span>    &#x3C;TodoProvider value={store}> </span></span>
+<span class="line"><span>      &#x3C;ToDoHome /></span></span>
+<span class="line"><span>    &#x3C;/TodoProvider></span></span>
+<span class="line"><span>    &#x3C;/div></span></span>
+<span class="line"><span>  );</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>Looking at reducer you might have noticed we will be dealing with 3 operations in this app.</p>
+<ol>
+<li>Fetch todo items</li>
+</ol>
+<p>This call happen only at once when the application is loaded, it will make API call and set the data in the store.
+2. Add todo item</p>
+<p>Whenever a new item is added, it will make an API call, on its success data will be stored in the store.</p>
+<ol start="3">
+<li>Complete/undo complete todo item</li>
+</ol>
+<p>Whenever any existing item is marked as complete or not complete, it will call API and set the item in store.</p>
+<p>The common structure of components is as follows.</p>
+<p>Components use hooks for logic and state management. Any action in the component will trigger method in hook and based on logic defined it will call an API and update state or do some other action in the app.</p>
+<p>Here is an example of todo item fetching hook. the <a href="https://reactjs.org/docs/hooks-effect.html">useEffect</a> hook is used here to make API call and it dispatches the action to update todo items. “useEffect” is kind of equivalent to withPropsOnChange HoC from recompose in addition it also has behavior of componentDidMount if no prop name is passed.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>import { useEffect } from "react";</span></span>
+<span class="line"><span>import { fetchTodoItems } from '../api/fetchToDoItems';</span></span>
+<span class="line"><span>import { useToDoContext } from "./useTodoContext";</span></span>
+<span class="line"><span>import {useCancellablePromise} from '../hooks/useCancellablePromise';</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>export const useToDoList = () => {</span></span>
+<span class="line"><span>    const { state, dispatch } = useToDoContext();</span></span>
+<span class="line"><span>    const { cancellablePromise } = useCancellablePromise();</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    useEffect(() => {</span></span>
+<span class="line"><span>            const fetchItems = async () => {</span></span>
+<span class="line"><span>                const items = await cancellablePromise(fetchTodoItems());</span></span>
+<span class="line"><span>                dispatch({</span></span>
+<span class="line"><span>                        type: 'TODO_ITEMS',</span></span>
+<span class="line"><span>                        todoItems: items</span></span>
+<span class="line"><span>                });</span></span>
+<span class="line"><span>                 </span></span>
+<span class="line"><span>            };</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>            fetchItems();</span></span>
+<span class="line"><span>        </span></span>
+<span class="line"><span>    }, []);</span></span>
+<span class="line"><span>    const { todoItems } = state;</span></span>
+<span class="line"><span>    const openToDoItems = todoItems.filter(t => !t.isComplete);</span></span>
+<span class="line"><span>    const completeToDoItems = todoItems.filter(t => t.isComplete);</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    return {</span></span>
+<span class="line"><span>        todoItems,</span></span>
+<span class="line"><span>        openToDoItems,</span></span>
+<span class="line"><span>        completeToDoItems</span></span>
+<span class="line"><span>    };</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>Because of all this logic moved to “useToDoList” hook, component looks clear and focuses on presentation aspect. It feels like hooks are endorsing to make it more functional. Recompose is also trying to solve same problem, but the nested component tree makes it harder to understand and troubleshoot code.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>const ToDoHome = () => {</span></span>
+<span class="line"><span>    const { todoItems, openToDoItems, completeToDoItems } = useToDoList();</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    return (</span></span>
+<span class="line"><span>        &#x3C;Container></span></span>
+<span class="line"><span>            &#x3C;AddToDo /></span></span>
+<span class="line"><span>            &#x3C;TodoContainer></span></span>
+<span class="line"><span>                &#x3C;Tabs defaultActiveKey="1" size={"large"}></span></span>
+<span class="line"><span>                    &#x3C;TabPane tab={</span></span>
+<span class="line"><span>                        &#x3C;Badge count={openToDoItems.length} overflowCount={99}>&#x3C;TabTitle>Open&#x3C;/TabTitle>&#x3C;/Badge></span></span>
+<span class="line"><span>                    } key="1"></span></span>
+<span class="line"><span>                        &#x3C;ToDoItems todoItems={openToDoItems} /></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>                    &#x3C;/TabPane></span></span>
+<span class="line"><span>                    &#x3C;TabPane tab={&#x3C;Badge count={completeToDoItems.length &#x26;&#x26; &#x3C;CompletedItemBadge>{completeToDoItems.length}&#x3C;/CompletedItemBadge>} overflowCount={99}></span></span>
+<span class="line"><span>                        &#x3C;TabTitle>Completed&#x3C;/TabTitle>&#x3C;/Badge>} key="2"></span></span>
+<span class="line"><span>                        &#x3C;ToDoItems todoItems={completeToDoItems} /></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>                    &#x3C;/TabPane></span></span>
+<span class="line"><span>                    &#x3C;TabPane tab={&#x3C;Badge count={todoItems.length &#x26;&#x26; &#x3C;AllItemsBadge>{todoItems.length}&#x3C;/AllItemsBadge>} overflowCount={99}>&#x3C;TabTitle>All&#x3C;/TabTitle>&#x3C;/Badge>} key="3"></span></span>
+<span class="line"><span>                        &#x3C;ToDoItems todoItems={todoItems} /></span></span>
+<span class="line"><span>                    &#x3C;/TabPane></span></span>
+<span class="line"><span>                &#x3C;/Tabs></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>            &#x3C;/TodoContainer></span></span>
+<span class="line"><span>        &#x3C;/Container></span></span>
+<span class="line"><span>    );</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>export default ToDoHome;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span></code></pre>
+<p>##In conclusion:</p>
+<p>Overall it’s bit different than conventional HoC implementation we are used to write using recompose library. I feel its cleaner than recompose implementation.</p>
+<p>Application Demo:
+<a href="https://ashokdudhade.github.io/todo-with-hooks/">https://ashokdudhade.github.io/todo-with-hooks/</a></p>
+<p>Application code is available on github:
+<a href="https://github.com/ashokdudhade/todo-with-hooks">https://github.com/ashokdudhade/todo-with-hooks</a></p> </div> </div> <div class="post-single__footer"> <div class="post-single__tags"> <ul class="post-single__tags-list"> <li class="post-single__tags-list-item"> <a href="/tags/react/" class="post-single__tags-list-item-link">React</a> </li><li class="post-single__tags-list-item"> <a href="/tags/react-hooks/" class="post-single__tags-list-item-link">React hooks</a> </li><li class="post-single__tags-list-item"> <a href="/tags/web-development/" class="post-single__tags-list-item-link">Web Development</a> </li> </ul> </div> <div class="post-single__footer-container"> <p class="post-single__footer-text"> Full stack software engineer <a href="https://twitter.com/ashokdudhade" target="_blank" rel="noopener noreferrer"> <br> <strong>Ashok Dudhade</strong> on Twitter
+</a> </p> <div class="shareWrapper"> <p> <span>Share This Post</span> <span class="shareIconContainer"> <a class="shareButton" href="https://twitter.com/intent/tweet?text=React%20hooks%20app%20structure&url=https%3A%2F%2Fwww.relevantprogrammer.com%2Fposts%2Ftodo-with-react-hooks%2F" target="_blank" aria-label="Share on Twitter" rel="noopener noreferrer"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path> </svg> </a> <a class="shareButton" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.relevantprogrammer.com%2Fposts%2Ftodo-with-react-hooks%2F&title=React%20hooks%20app%20structure" target="_blank" aria-label="Share on LinkedIn" rel="noopener noreferrer"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path> <rect x="2" y="9" width="4" height="12"></rect> <circle cx="4" cy="4" r="2"></circle> </svg> </a> </span> </p> </div>  </div> </div> </div> </div> </main>  <footer class="site-footer"> <div class="site-footer__inner"> <div class="links"> <ul class="links__list"> <li class="links__list-item"> <a href="https://www.twitter.com/ashokdudhade" target="_blank" rel="noopener noreferrer" aria-label="Twitter"> <i class="icon-twitter"></i> </a> </li> <li class="links__list-item"> <a href="https://www.github.com/ashokdudhade" target="_blank" rel="noopener noreferrer" aria-label="GitHub"> <i class="icon-github"></i> </a> </li> <li class="links__list-item"> <a href="https://www.linkedin.com/in/ashok-dudhade-440a35a" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"> <i class="icon-linkedin"></i> </a> </li> </ul> </div>  <p class="site-footer__copyright">© All rights reserved.</p> </div> </footer>  </div> </body></html> 
