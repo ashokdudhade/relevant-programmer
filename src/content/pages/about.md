@@ -26,6 +26,5 @@ With a foundation built on **16+ years of distributed systems engineering**, I b
 
 - **Organizational Leadership:** A proven track record of hiring and mentoring elite engineering talent, managing multi-functional teams, and driving the technical vision for multi-million dollar digital transformation initiatives.
 
-**Execution Philosophy**
 
 I believe that the value of state-of-the-art technology is measured by its resilience and ROI. Whether implementing a cutting-edge LLM or refactoring a legacy distributed system, my approach is centered on responsible deployment, clear technical debt management, and the delivery of products that solve high-stakes enterprise problems.
