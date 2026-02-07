@@ -13,7 +13,7 @@ function categorySlug(cat: string) {
 }
 ---
 
-<Layout title={siteMetadata.title} description={siteMetadata.subtitle}>
+<Layout title={`Posts - ${siteMetadata.title}`} description={siteMetadata.subtitle}>
   <main id="main-content" class="content">
     <div class="content__inner">
       {posts.map((entry) => (

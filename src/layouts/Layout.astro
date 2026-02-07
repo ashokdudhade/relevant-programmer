@@ -74,28 +74,156 @@ const fullTitle = title;
     margin-right: auto;
     padding: 1.5rem 24px 3rem;
   }
-  /* Header avatar: force circular */
-  .site-header__photo-wrap {
-    width: 32px !important;
-    height: 32px !important;
-    min-width: 32px;
-    min-height: 32px;
-    border-radius: 50% !important;
-    overflow: hidden !important;
+  /* Site header — all styles here so they always apply */
+  header.site-header {
+    display: block;
+    padding: 1.5rem 0 2rem;
+    border-bottom: 1px solid #e2e8f0;
+    margin-bottom: 2rem;
+  }
+  header.site-header .site-header__inner {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.5rem 1.25rem;
+  }
+  header.site-header .site-header__brand {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: #1a1a1a;
+    font-weight: 600;
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+    transition: color 0.15s ease;
+  }
+  header.site-header .site-header__brand:hover,
+  header.site-header .site-header__brand:focus {
+    color: #0f766e;
+  }
+  header.site-header .site-header__title {
+    text-transform: lowercase;
+  }
+  header.site-header .site-header__byline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-wrap: nowrap;
+  }
+  header.site-header .site-header__by {
+    color: #64748b;
+    font-size: 13px;
+  }
+  header.site-header .site-header__author {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #64748b;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  header.site-header .site-header__photo-wrap {
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    min-height: 18px;
+    border-radius: 50%;
+    overflow: hidden;
     flex-shrink: 0;
     border: 1px solid #e2e8f0;
-    display: block;
+    display: inline-block;
+    vertical-align: middle;
   }
-  .site-header__photo-wrap img,
-  .site-header__photo {
-    width: 100% !important;
-    height: 100% !important;
-    min-width: 32px;
-    min-height: 32px;
-    object-fit: cover !important;
-    display: block !important;
-    margin: 0 !important;
-    border-radius: 0;
+  header.site-header .site-header__photo-wrap img,
+  header.site-header .site-header__photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    margin: 0;
     vertical-align: top;
+  }
+  header.site-header .site-header__author-name {
+    color: #64748b;
+    font-size: 13px;
+  }
+  header.site-header .site-header__nav {
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  header.site-header .site-header__nav .menu__list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  header.site-header .site-header__nav .menu__list-item {
+    margin: 0;
+    padding: 0;
+  }
+  header.site-header .site-header__nav .menu__list-item-link {
+    padding: 0.25rem 0;
+    font-weight: 500;
+    color: #1a1a1a;
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  header.site-header .site-header__nav .menu__list-item-link:hover,
+  header.site-header .site-header__nav .menu__list-item-link:focus {
+    color: #0f766e;
+  }
+  header.site-header .site-header__nav .menu__list-item-link--active {
+    color: #0f766e;
+    font-weight: 600;
+  }
+  /* Site footer — all styles here so they always apply */
+  footer.site-footer {
+    display: block;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e2e8f0;
+  }
+  footer.site-footer .site-footer__inner {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  footer.site-footer .site-footer__copyright {
+    color: #64748b;
+    font-size: 13px;
+    margin: 0;
+    flex-shrink: 0;
+  }
+  footer.site-footer .links {
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+  footer.site-footer .links__list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  footer.site-footer .links__list-item {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+  }
+  footer.site-footer .links__list-item a {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 </style>
