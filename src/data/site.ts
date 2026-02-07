@@ -5,7 +5,7 @@ export const siteMetadata = {
   copyright: '© All rights reserved.',
   disqusShortname: '',
   menu: [
-    { label: 'Posts', path: '/' },
+    { label: 'Articles', path: '/' },
     { label: 'About', path: '/about/' },
   ],
   author: {
