@@ -1,0 +1,8 @@
+# Redirect to trailing slash so static index.html is served
+/posts/:slug    /posts/:slug/    301
+/categories/:slug    /categories/:slug/    301
+/tags/:tag    /tags/:tag/    301
+
+# Domain redirects
+https://relevantprogrammer.netlify.com/* https://www.relevantprogrammer.com/:splat 301!
+https://relevantprogrammer.com/* https://www.relevantprogrammer.com/:splat 301!
