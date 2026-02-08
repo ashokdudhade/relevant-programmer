@@ -9,10 +9,48 @@
   &__inner {
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
+  }
+  &__nav {
+    flex-shrink: 0;
+    order: 1;
+    width: 100%;
+    @include breakpoint-sm {
+      width: auto;
+      order: 0;
+    }
+  }
+  &__nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0 1.25rem;
+  }
+  &__nav-item {
+    margin: 0;
+    padding: 0;
+  }
+  &__nav-link {
+    font-size: $typographic-meta-font-size;
+    font-weight: 500;
+    color: $color-muted;
+    text-decoration: none;
+    padding: 0.25rem 0;
+    transition: color 0.15s ease;
+    &:hover,
+    &:focus {
+      color: $color-primary;
+    }
+    &--active {
+      color: $color-primary;
+      font-weight: 600;
+    }
   }
   &__copyright {
     color: $color-muted;

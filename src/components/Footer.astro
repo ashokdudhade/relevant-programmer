@@ -2,11 +2,30 @@
 import { siteMetadata } from '../data/site';
 import Links from './Links.astro';
 
-const { copyright } = siteMetadata;
+const { copyright, menu } = siteMetadata;
 ---
 
 <footer class="site-footer">
   <div class="site-footer__inner">
+    <nav class="site-footer__nav" aria-label="Site">
+      <ul class="site-footer__nav-list">
+        {menu.map((item) => {
+          const isActive = item.path === '/'
+            ? (Astro.url.pathname === '/' || Astro.url.pathname.startsWith('/posts/'))
+            : Astro.url.pathname === item.path;
+          return (
+            <li class="site-footer__nav-item">
+              <a
+                href={item.path}
+                class:list={['site-footer__nav-link', isActive && 'site-footer__nav-link--active']}
+              >
+                {item.label}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
     <Links />
     <p class="site-footer__copyright">{copyright}</p>
   </div>
