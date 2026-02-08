@@ -1,4 +1,17 @@
+# Dependencies & build
 node_modules
-.cache
-.DS_Store
 dist
+.astro
+
+# Cache
+.cache
+
+# Env (secrets)
+.env
+.env.*
+!.env.example
+
+# OS & editor
+.DS_Store
+Thumbs.db
+*.log
