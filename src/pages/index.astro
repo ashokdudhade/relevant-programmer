@@ -1,31 +1,107 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Post from '../components/Post.astro';
+import FeaturedPost from '../components/FeaturedPost.astro';
 import { getCollection } from 'astro:content';
 import { siteMetadata } from '../data/site';
+import {
+  categorySlug,
+  postPath,
+  extractFirstImage,
+  getCategoryCounts,
+  estimateReadTime,
+} from '../utils/blog';
 
 const posts = (await getCollection('blog'))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
-function categorySlug(cat: string) {
-  return `/categories/${cat.toLowerCase().replace(/\s+/g, '-')}/`;
-}
+const [featured, ...rest] = posts;
+const categories = getCategoryCounts(posts);
+const featuredImage = featured ? extractFirstImage(featured.body) : null;
+const featuredReadTime = featured ? estimateReadTime(featured.body) : undefined;
 ---
 
-<Layout title={`Posts - ${siteMetadata.title}`} description={siteMetadata.subtitle}>
-  <main id="main-content" class="content">
-    <div class="content__inner">
-      {posts.map((entry) => (
-        <Post
-          title={entry.data.title}
-          date={entry.data.date}
-          category={entry.data.category}
-          description={entry.data.description}
-          slug={entry.data.path.startsWith('/') ? entry.data.path : '/' + entry.data.path}
-          categorySlug={categorySlug(entry.data.category)}
+<Layout
+  title={siteMetadata.title}
+  description="Notes on software engineering, AI in production, and building reliable systems."
+>
+  <main id="main-content" class="content content--home">
+    <section class="home__hero" aria-labelledby="home-intro">
+      <div class="home__intro">
+        <div class="home__intro-top">
+          <div class="home__avatar">
+            <img src="/profile-pic.jpg" alt={siteMetadata.author.name} width="56" height="56" />
+          </div>
+          <div class="home__intro-copy">
+            <p class="home__eyebrow">{siteMetadata.author.name}</p>
+            <h1 id="home-intro" class="home__title">
+              Notes on AI, systems, and shipping software that holds up in production.
+            </h1>
+          </div>
+        </div>
+        <p class="home__lede">
+          {siteMetadata.subtitle}. Long-form writing on engineering, agentic tools, and the lessons that only show up after deploy.
+        </p>
+        <div class="home__actions">
+          <a class="home__action home__action--primary" href="#home-posts">
+            Browse articles
+          </a>
+          <a class="home__action home__action--secondary" href="/about/">
+            About me
+          </a>
+        </div>
+      </div>
+
+      {featured && (
+        <FeaturedPost
+          title={featured.data.title}
+          date={featured.data.date}
+          category={featured.data.category}
+          description={featured.data.description}
+          slug={postPath(featured.data.path)}
+          categorySlug={categorySlug(featured.data.category)}
+          image={featuredImage}
+          readTime={featuredReadTime}
         />
-      ))}
-    </div>
+      )}
+    </section>
+
+    <section class="home__section home__section--topics" aria-labelledby="home-topics">
+      <div class="home__section-header">
+        <h2 id="home-topics" class="home__section-title">Browse by topic</h2>
+        <a class="home__section-link" href="/categories/">All categories →</a>
+      </div>
+      <nav class="home__topics" aria-label="Topics">
+        {categories.slice(0, 8).map(({ name, count, slug }) => (
+          <a class="home__topic" href={slug}>
+            {name}
+            <span class="home__topic-count">{count}</span>
+          </a>
+        ))}
+      </nav>
+    </section>
+
+    {rest.length > 0 && (
+      <section id="home-posts" class="home__section home__section--posts" aria-labelledby="home-posts-heading">
+        <div class="home__section-header">
+          <h2 id="home-posts-heading" class="home__section-title">All articles</h2>
+        </div>
+        <div class="post-list post-list--grid">
+          {rest.map((entry) => (
+            <Post
+              variant="card"
+              title={entry.data.title}
+              date={entry.data.date}
+              category={entry.data.category}
+              description={entry.data.description}
+              slug={postPath(entry.data.path)}
+              categorySlug={categorySlug(entry.data.category)}
+              image={extractFirstImage(entry.body)}
+            />
+          ))}
+        </div>
+      </section>
+    )}
   </main>
 </Layout>

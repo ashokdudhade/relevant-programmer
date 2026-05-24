@@ -1,0 +1,44 @@
+---
+interface Props {
+  title: string;
+  date: Date;
+  category: string;
+  description: string;
+  slug: string;
+  categorySlug: string;
+  image?: string | null;
+  readTime?: number;
+}
+
+const { title, date, category, description, slug, categorySlug, image, readTime } = Astro.props;
+const formattedDate = new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(date);
+const dateTime = date.toISOString().split('T')[0];
+---
+
+<article class="featured-post" aria-labelledby="featured-post-title">
+  <p class="featured-post__label">Latest article</p>
+  <a href={slug} class="featured-post__media" tabindex="-1" aria-hidden="true">
+    {image ? (
+      <img src={image} alt="" loading="eager" decoding="async" />
+    ) : (
+      <div class="featured-post__placeholder" aria-hidden="true">
+        <span class="featured-post__placeholder-mark">{category.charAt(0)}</span>
+      </div>
+    )}
+  </a>
+  <div class="featured-post__body">
+    <div class="featured-post__meta">
+      <a href={categorySlug} class="featured-post__category">{category}</a>
+      <time datetime={dateTime}>{formattedDate}</time>
+      {readTime && <span class="featured-post__read-time">{readTime} min read</span>}
+    </div>
+    <h2 id="featured-post-title" class="featured-post__title">
+      <a href={slug}>{title}</a>
+    </h2>
+    <p class="featured-post__description">{description}</p>
+    <a class="featured-post__cta" href={slug}>
+      Read article
+      <span aria-hidden="true">→</span>
+    </a>
+  </div>
+</article>
