@@ -6,23 +6,40 @@ interface Props {
   description: string;
   slug: string;
   categorySlug: string;
+  image?: string | null;
+  variant?: 'default' | 'card';
 }
 
-const { title, date, category, description, slug, categorySlug } = Astro.props;
+const { title, date, category, description, slug, categorySlug, image, variant = 'default' } = Astro.props;
 const formattedDate = new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(date);
-const dateTime = new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(date);
+const dateTime = date.toISOString().split('T')[0];
+const isCard = variant === 'card';
 ---
 
-<article class="post">
-  <h2 class="post__title">
-    <a class="post__title-link" href={slug}>{title}</a>
-  </h2>
-  <p class="post__meta">
-    <time datetime={dateTime}>{formattedDate}</time>
-    <span class="post__meta-sep"> · </span>
-    <a href={categorySlug} class="post__meta-category">{category}</a>
-  </p>
-  <p class="post__description">{description}</p>
+<article class:list={['post', isCard && 'post--card', !isCard && image && 'post--with-image']}>
+  {(isCard || image) && (
+    <a href={slug} class="post__media" tabindex="-1" aria-hidden="true">
+      {image ? (
+        <img src={image} alt="" loading="lazy" decoding="async" />
+      ) : (
+        <div class="post__placeholder" aria-hidden="true">
+          <span class="post__placeholder-mark">{category.charAt(0)}</span>
+        </div>
+      )}
+    </a>
+  )}
+  <div class="post__content">
+    <div class="post__header">
+      <a href={categorySlug} class="post__category">{category}</a>
+      <time class="post__date" datetime={dateTime}>{formattedDate}</time>
+    </div>
+    <h2 class="post__title">
+      <a class="post__title-link" href={slug}>{title}</a>
+    </h2>
+    <p class="post__description">{description}</p>
+    <a class="post__read-more" href={slug} aria-label={`Read ${title}`}>
+      Read article
+      <span class="post__read-more-arrow" aria-hidden="true">→</span>
+    </a>
+  </div>
 </article>
-
-<style lang="scss" src="../assets/scss/components/_post.scss"></style>

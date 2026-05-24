@@ -8,19 +8,48 @@
     margin: 0 auto;
     padding: 0 0 3rem;
   }
-  &__title {
-    font-size: 2rem;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1.2;
-    margin: 0 0 1rem;
-    color: $color-base;
-    font-family: $typographic-font-family;
-    @include breakpoint-md {
-      font-size: 2.5rem;
-      margin-bottom: 1.25rem;
+
+  &__header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid $color-gray-border;
+  }
+
+  &__category {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: $color-primary;
+    background: $color-primary-light;
+    text-decoration: none;
+    border-radius: $radius-full;
+    margin-bottom: 1rem;
+    transition: background 0.15s ease, color 0.15s ease;
+
+    &:hover,
+    &:focus {
+      background: $color-primary;
+      color: $color-white;
     }
   }
+
+  &__title {
+    font-family: $typographic-font-serif;
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin: 0 0 0.75rem;
+    color: $color-base;
+
+    @include breakpoint-md {
+      font-size: 2.375rem;
+    }
+  }
+
   &__body {
     font-family: $typographic-font-serif;
     font-size: 1.125rem;
@@ -28,73 +57,95 @@
     color: $color-base;
     max-width: 65ch;
     margin: 0 auto;
-    :global(h2) {
+
+    h2 {
       font-family: $typographic-font-family;
       font-size: 1.375rem;
-      margin-top: 2rem;
+      font-weight: 600;
+      margin-top: 2.25rem;
       margin-bottom: 0.75rem;
+      letter-spacing: -0.01em;
     }
-    :global(h3) {
+
+    h3 {
       font-family: $typographic-font-family;
       font-size: 1.125rem;
-      margin-top: 1.5rem;
+      font-weight: 600;
+      margin-top: 1.75rem;
       margin-bottom: 0.5rem;
     }
-    :global(p) {
+
+    p {
       margin-bottom: 1.25rem;
     }
-    :global(a) {
+
+    a {
       color: $color-primary;
       text-decoration: underline;
       text-underline-offset: 2px;
+
       &:hover {
         color: $color-primary-hover;
       }
     }
-    :global(pre),
-    :global(code) {
+
+    pre,
+    code {
       font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, monospace;
       font-size: 0.9em;
     }
-    :global(pre) {
+
+    pre {
       background: $color-gray-bg;
       padding: 1.25rem;
       border-radius: $radius-md;
       overflow-x: auto;
       margin: 1.5rem 0;
       border: 1px solid $color-gray-border;
+      box-shadow: $shadow-sm;
     }
-    :global(:not(pre) > code) {
+
+    :not(pre) > code {
       background: $color-gray-bg;
-      padding: 0.2em 0.4em;
+      padding: 0.2em 0.45em;
       border-radius: $radius-sm;
-      font-size: 0.9em;
+      font-size: 0.875em;
+      border: 1px solid $color-gray-border;
     }
-    :global(blockquote) {
+
+    blockquote {
       margin: 1.5rem 0;
-      padding-left: 1.25rem;
+      padding: 1rem 1.25rem;
       border-left: 4px solid $color-primary;
+      background: $color-bg-accent;
+      border-radius: 0 $radius-md $radius-md 0;
       color: $color-muted;
       font-style: italic;
     }
-    :global(ul),
-    :global(ol) {
+
+    ul,
+    ol {
       margin-bottom: 1.25rem;
       padding-left: 1.5rem;
     }
-    :global(img) {
+
+    img {
       border-radius: $radius-md;
       max-width: 100%;
       height: auto;
+      box-shadow: $shadow-md;
     }
   }
+
   &__date {
     font-size: $typographic-meta-font-size;
     color: $color-muted;
-    margin-bottom: 1.5rem;
+    margin: 0;
   }
+
   &__tags {
-    margin-bottom: 1rem;
+    margin-bottom: 0;
+
     &-list {
       list-style: none;
       margin: 0;
@@ -102,8 +153,10 @@
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
+
       &-item {
         margin: 0;
+
         &-link {
           display: inline-block;
           padding: 0.35rem 0.75rem;
@@ -114,37 +167,47 @@
           text-decoration: none;
           border-radius: $radius-full;
           transition: background 0.15s ease, color 0.15s ease;
+
           &:hover,
           &:focus {
-            background: color.adjust($color-primary, $lightness: 88%);
+            background: $color-primary-light;
             color: $color-primary;
           }
         }
       }
     }
   }
+
   &__footer {
-    margin-top: 2rem;
-    padding-top: 1.5rem;
+    margin-top: 2.5rem;
+    padding-top: 1.75rem;
     border-top: 1px solid $color-gray-border;
+
     &-text {
       font-size: $typographic-small-font-size;
       color: $color-muted;
-      margin-bottom: 1rem;
-      & :global(a) {
+      margin-bottom: 0;
+
+      a {
         color: $color-primary;
         text-decoration: none;
-        &:hover { text-decoration: underline; }
+
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
+
     &-container {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
       gap: 1rem;
+      margin-top: 1.25rem;
     }
   }
+
   &__home-button {
     display: inline-flex;
     align-items: center;
@@ -153,28 +216,20 @@
     font-weight: 500;
     padding: 0.5rem 1rem;
     color: $color-muted;
-    background: $color-gray-bg;
+    background: $color-surface;
     text-decoration: none;
-    border-radius: $radius-md;
-    transition: background 0.15s ease, color 0.15s ease;
-    margin-bottom: 1.5rem;
+    border: 1px solid $color-gray-border;
+    border-radius: $radius-full;
+    box-shadow: $shadow-sm;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    margin-bottom: 1.75rem;
+
     &:hover,
     &:focus {
-      background: $color-gray-border;
+      background: $color-gray-bg;
       color: $color-base;
-    }
-  }
-}
-
-@include breakpoint-md {
-  .post-single {
-    &__home-button {
-      position: fixed;
-      top: 1.5rem;
-      left: 1.5rem;
-      z-index: 10;
-      margin-bottom: 0;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      border-color: color.adjust($color-primary, $lightness: 30%);
+      box-shadow: $shadow-md;
     }
   }
 }

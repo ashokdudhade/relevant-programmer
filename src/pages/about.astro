@@ -13,12 +13,12 @@ const title = about?.data.title ?? 'About';
 <Layout title={`${title} - ${siteMetadata.title}`} description={siteMetadata.subtitle}>
   <main id="main-content" class="content">
     <div class="content__inner">
-      <div class="page">
+      <article class="page">
         <h1 class="page__title">{title}</h1>
         <div class="page__body">
           {Content && <Content />}
         </div>
-      </div>
+      </article>
     </div>
   </main>
 </Layout>

@@ -1,0 +1,432 @@
+@use "sass:color";
+@use "../variables" as *;
+@use "../mixins" as *;
+
+.home {
+  &__hero {
+    display: grid;
+    gap: 1.25rem;
+    padding: 1.25rem 0 1.75rem;
+    margin-bottom: 0.5rem;
+
+    @include breakpoint-sm {
+      grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+      align-items: start;
+      gap: 2rem;
+      padding: 1.75rem 0 2.25rem;
+    }
+
+    .featured-post {
+      @media screen and (max-width: ($layout-breakpoint-sm - 1px)) {
+        order: -1;
+      }
+    }
+  }
+
+  &__intro {
+    text-align: left;
+  }
+
+  &__intro-top {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    margin-bottom: 0.875rem;
+
+    @include breakpoint-sm {
+      display: block;
+    }
+  }
+
+  &__intro-copy {
+    min-width: 0;
+  }
+
+  &__avatar {
+    flex-shrink: 0;
+    margin: 0;
+    width: fit-content;
+
+    @include breakpoint-sm {
+      margin: 0 0 1rem;
+    }
+
+    img {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid $color-white;
+      box-shadow: $shadow-sm;
+
+      @include breakpoint-sm {
+        width: 72px;
+        height: 72px;
+        border-width: 3px;
+        box-shadow: $shadow-md;
+      }
+    }
+  }
+
+  &__eyebrow {
+    display: inline-block;
+    margin: 0 0 0.35rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: $color-primary;
+
+    @include breakpoint-sm {
+      margin-bottom: 0.5rem;
+      font-size: $typographic-meta-font-size;
+    }
+  }
+
+  &__title {
+    font-family: $typographic-font-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    margin: 0;
+    color: $color-base;
+
+    @include breakpoint-sm {
+      font-size: 1.2rem;
+      line-height: 1.3;
+      margin-bottom: 0.75rem;
+    }
+  }
+
+  &__lede {
+    font-size: $typographic-meta-font-size;
+    line-height: 1.6;
+    color: $color-muted;
+    margin: 0 0 1rem;
+    max-width: 42ch;
+
+    @include breakpoint-sm {
+      font-size: $typographic-small-font-size;
+      line-height: 1.7;
+      margin-bottom: 1.25rem;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+
+    @include breakpoint-sm {
+      gap: 0.625rem;
+      margin-bottom: 1.25rem;
+    }
+  }
+
+  &__action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.55rem 1.1rem;
+    font-size: $typographic-meta-font-size;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: $radius-full;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+
+    &--primary {
+      color: $color-white;
+      background: $color-primary;
+
+      &:hover,
+      &:focus {
+        background: $color-primary-hover;
+        color: $color-white;
+        transform: translateY(-1px);
+      }
+    }
+
+    &--secondary {
+      color: $color-base;
+      background: $color-white;
+      border: 1px solid $color-gray-border;
+
+      &:hover,
+      &:focus {
+        border-color: color.adjust($color-primary, $lightness: 30%);
+        color: $color-primary;
+      }
+    }
+  }
+
+  &__stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__stat {
+    margin: 0;
+    padding: 0;
+    font-size: $typographic-meta-font-size;
+    color: $color-muted;
+
+    strong {
+      color: $color-base;
+      font-weight: 600;
+    }
+  }
+
+  &__section {
+    padding: 2rem 0;
+
+    &--topics {
+      padding-top: 0.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid $color-gray-border;
+    }
+
+    &--posts {
+      padding-top: 2.25rem;
+    }
+  }
+
+  &__section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  &__section-title {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: $color-muted;
+    margin: 0;
+  }
+
+  &__section-link {
+    font-size: $typographic-meta-font-size;
+    font-weight: 600;
+    color: $color-primary;
+    text-decoration: none;
+    white-space: nowrap;
+
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+  }
+
+  &__topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  &__topic {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.85rem;
+    font-size: $typographic-meta-font-size;
+    font-weight: 500;
+    color: $color-base;
+    text-decoration: none;
+    background: $color-surface;
+    border: 1px solid $color-gray-border;
+    border-radius: $radius-full;
+    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+
+    &:hover,
+    &:focus {
+      border-color: color.adjust($color-primary, $lightness: 25%);
+      background: $color-bg-accent;
+      color: $color-primary;
+    }
+  }
+
+  &__topic-count {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: $color-muted;
+    background: $color-gray-bg;
+    padding: 0.1rem 0.4rem;
+    border-radius: $radius-full;
+  }
+}
+
+.featured-post {
+  display: flex;
+  flex-direction: column;
+  background: $color-surface;
+  border: 1px solid $color-gray-border;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-md;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    box-shadow: $shadow-hover;
+    transform: translateY(-2px);
+  }
+
+  &__label {
+    margin: 0;
+    padding: 0.65rem 1.1rem 0;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: $color-primary;
+  }
+
+  &__media {
+    display: block;
+    aspect-ratio: 2 / 1;
+    overflow: hidden;
+    background: $color-gray-bg;
+    text-decoration: none;
+
+    @include breakpoint-sm {
+      aspect-ratio: 16 / 9;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      margin: 0;
+      transition: transform 0.35s ease;
+    }
+  }
+
+  &:hover &__media img {
+    transform: scale(1.03);
+  }
+
+  &__placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, $color-primary-light 0%, rgba(3, 105, 161, 0.12) 100%);
+  }
+
+  &__placeholder-mark {
+    font-family: $typographic-font-serif;
+    font-size: 3rem;
+    font-weight: 600;
+    color: rgba($color-primary, 0.35);
+    text-transform: uppercase;
+  }
+
+  &__body {
+    padding: 1rem 1.15rem 1.15rem;
+
+    @include breakpoint-sm {
+      padding: 1.25rem 1.35rem 1.35rem;
+    }
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.75rem;
+    margin-bottom: 0.625rem;
+    font-size: $typographic-meta-font-size;
+    color: $color-muted;
+  }
+
+  &__category {
+    display: inline-block;
+    padding: 0.2rem 0.65rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: $color-primary;
+    background: $color-primary-light;
+    text-decoration: none;
+    border-radius: $radius-full;
+    transition: background 0.15s ease, color 0.15s ease;
+
+    &:hover,
+    &:focus {
+      background: $color-primary;
+      color: $color-white;
+    }
+  }
+
+  &__title {
+    font-family: $typographic-font-serif;
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.3;
+    margin: 0 0 0.5rem;
+
+    @include breakpoint-sm {
+      font-size: 1.5rem;
+      line-height: 1.25;
+      margin-bottom: 0.75rem;
+    }
+
+    a {
+      color: $color-base;
+      text-decoration: none;
+      transition: color 0.15s ease;
+
+      &:hover,
+      &:focus {
+        color: $color-primary;
+      }
+    }
+  }
+
+  &__description {
+    font-size: $typographic-small-font-size;
+    line-height: 1.65;
+    color: $color-muted;
+    margin: 0 0 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__read-time {
+    &::before {
+      content: "·";
+      margin-right: 0.75rem;
+    }
+  }
+
+  &__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: $typographic-meta-font-size;
+    font-weight: 600;
+    color: $color-primary;
+    text-decoration: none;
+    transition: gap 0.15s ease;
+
+    &:hover,
+    &:focus {
+      gap: 0.55rem;
+    }
+  }
+}
+
