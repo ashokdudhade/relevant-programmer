@@ -14,7 +14,7 @@ export const siteMetadata = {
     telegram: '#',
     twitter: 'ashokdudhade',
     github: 'ashokdudhade',
-    rss: '#',
+    rss: '/rss.xml',
     vk: '#',
     linkedin: 'ashok-dudhade-440a35a',
   },

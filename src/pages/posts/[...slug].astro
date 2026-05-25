@@ -3,6 +3,9 @@ import Layout from '../../layouts/Layout.astro';
 import Share from '../../components/Share.astro';
 import { getCollection } from 'astro:content';
 import { siteMetadata } from '../../data/site';
+import { extractFirstImage, postPath } from '../../utils/blog';
+import { absoluteUrl, absoluteImageUrl } from '../../utils/seo';
+import { buildBlogPostingSchema } from '../../utils/schema';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', (p) => !p.data.draft);
@@ -18,23 +21,44 @@ const { Content } = await entry.render();
 const post = entry.data;
 const tagSlugs = post.tags.map((t) => `/tags/${t.toLowerCase().replace(/\s+/g, '-')}/`);
 const categorySlug = `/categories/${post.category.toLowerCase().replace(/\s+/g, '-')}/`;
-const description = post.description ?? siteMetadata.subtitle;
-const fullUrl = siteMetadata.url + (post.path.startsWith('/') ? post.path : '/' + post.path);
+const description = post.description;
+const pagePath = postPath(post.path);
+const canonical = pagePath;
+const fullUrl = absoluteUrl(pagePath);
+const heroImage = extractFirstImage(entry.body);
+const heroImageUrl = heroImage ? absoluteImageUrl(heroImage) : null;
+const dateTime = post.date.toISOString();
+const formattedDate = new Intl.DateTimeFormat('en-US', {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+}).format(post.date);
+
+const jsonLd = buildBlogPostingSchema(entry, { fullUrl, heroImageUrl });
 ---
 
-<Layout title={`${post.title} - ${siteMetadata.title}`} description={description}>
+<Layout
+  title={`${post.title} - ${siteMetadata.title}`}
+  description={description}
+  canonical={canonical}
+  image={heroImage}
+  ogType="article"
+  publishedTime={post.date}
+  jsonLd={jsonLd}
+>
   <main id="main-content" class="content">
     <div class="content__inner">
       <a class="post-single__home-button" href="/">← All Articles</a>
-      <article class="post-single">
+      <article class="post-single" itemscope itemtype="https://schema.org/BlogPosting">
         <header class="post-single__header">
           <a href={categorySlug} class="post-single__category">{post.category}</a>
-          <h1 class="post-single__title">{post.title}</h1>
+          <h1 class="post-single__title" itemprop="headline">{post.title}</h1>
+          <p class="post-single__lede" itemprop="description">{post.description}</p>
           <p class="post-single__date">
-            Published {new Date(post.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+            Published <time datetime={dateTime} itemprop="datePublished">{formattedDate}</time>
           </p>
         </header>
-        <div class="post-single__body">
+        <div class="post-single__body" itemprop="articleBody">
           <Content />
         </div>
         <footer class="post-single__footer">

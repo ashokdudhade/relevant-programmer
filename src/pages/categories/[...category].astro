@@ -4,6 +4,7 @@ import Post from '../../components/Post.astro';
 import { getCollection } from 'astro:content';
 import { siteMetadata } from '../../data/site';
 import { categorySlug, postPath, extractFirstImage } from '../../utils/blog';
+import { formatTaxonomyName, taxonomyDescription } from '../../utils/seo';
 
 export async function getStaticPaths() {
   const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
@@ -15,16 +16,23 @@ export async function getStaticPaths() {
 }
 
 const { categorySlug: categoryParam } = Astro.props;
-const categoryName = categoryParam.replace(/-/g, ' ');
 const posts = (await getCollection('blog'))
   .filter((p) => !p.data.draft && p.data.category.toLowerCase().replace(/\s+/g, '-') === categoryParam)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const categoryLabel = posts[0]?.data.category ?? formatTaxonomyName(categoryParam);
+const description = taxonomyDescription(categoryLabel, posts.length, 'category');
+const canonical = `/categories/${categoryParam}/`;
 ---
 
-<Layout title={`${categoryName} - ${siteMetadata.title}`} description={siteMetadata.subtitle}>
+<Layout
+  title={`${categoryLabel} - ${siteMetadata.title}`}
+  description={description}
+  canonical={canonical}
+>
   <main id="main-content" class="content">
     <div class="content__inner">
-      <h1 class="page__title">{categoryName}</h1>
+      <h1 class="page__title">{categoryLabel}</h1>
       <div class="post-list post-list--grid">
         {posts.map((entry) => (
           <Post

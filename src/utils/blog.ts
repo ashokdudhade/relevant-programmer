@@ -30,3 +30,11 @@ export function estimateReadTime(body: string): number {
   const words = body.trim().split(/\s+/).length;
   return Math.max(1, Math.round(words / 220));
 }
+
+/** Default 16:9 card thumbnail dimensions (reduces CLS). */
+export const CARD_IMAGE_WIDTH = 640;
+export const CARD_IMAGE_HEIGHT = 360;
+
+/** Featured hero image dimensions (16:9). */
+export const FEATURED_IMAGE_WIDTH = 800;
+export const FEATURED_IMAGE_HEIGHT = 450;

@@ -1,4 +1,6 @@
 ---
+import { CARD_IMAGE_HEIGHT, CARD_IMAGE_WIDTH } from '../utils/blog';
+
 interface Props {
   title: string;
   date: Date;
@@ -8,28 +10,40 @@ interface Props {
   categorySlug: string;
   image?: string | null;
   variant?: 'default' | 'card';
+  index?: number;
 }
 
-const { title, date, category, description, slug, categorySlug, image, variant = 'default' } = Astro.props;
-const formattedDate = new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(date);
+const { title, date, category, description, slug, categorySlug, image, variant = 'default', index } = Astro.props;
+const formattedDate = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })
+  .format(date)
+  .replace(/\//g, '.');
 const dateTime = date.toISOString().split('T')[0];
 const isCard = variant === 'card';
+const indexLabel = typeof index === 'number' ? String(index + 1).padStart(2, '0') : null;
 ---
 
-<article class:list={['post', isCard && 'post--card', !isCard && image && 'post--with-image']}>
-  {(isCard || image) && (
+<article class:list={['post', isCard && 'post--card', !isCard && 'post--list']}>
+  {isCard && (
     <a href={slug} class="post__media" tabindex="-1" aria-hidden="true">
       {image ? (
-        <img src={image} alt="" loading="lazy" decoding="async" />
+        <img
+          src={image}
+          alt=""
+          width={CARD_IMAGE_WIDTH}
+          height={CARD_IMAGE_HEIGHT}
+          loading="lazy"
+          decoding="async"
+        />
       ) : (
         <div class="post__placeholder" aria-hidden="true">
-          <span class="post__placeholder-mark">{category.charAt(0)}</span>
+          <span class="post__placeholder-label">{category}</span>
         </div>
       )}
     </a>
   )}
   <div class="post__content">
-    <div class="post__header">
+    <div class="post__meta">
+      {indexLabel && <span class="post__index">{indexLabel}</span>}
       <a href={categorySlug} class="post__category">{category}</a>
       <time class="post__date" datetime={dateTime}>{formattedDate}</time>
     </div>
@@ -37,9 +51,5 @@ const isCard = variant === 'card';
       <a class="post__title-link" href={slug}>{title}</a>
     </h2>
     <p class="post__description">{description}</p>
-    <a class="post__read-more" href={slug} aria-label={`Read ${title}`}>
-      Read article
-      <span class="post__read-more-arrow" aria-hidden="true">→</span>
-    </a>
   </div>
 </article>

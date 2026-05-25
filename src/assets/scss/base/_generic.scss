@@ -1,224 +1,188 @@
-/** 
- * Generic
+/**
+ * Generic — global element styles
  */
 @use "../variables" as *;
 @use "../mixins" as *;
 
 html {
-    font-size: $typographic-root-font-size;
+  font-size: $typographic-root-font-size;
+  background: var(--color-bg);
 }
 
 body {
-    margin: 0;
-    font-family: $typographic-font-family;
-    color: $typographic-base-font-color;
-    line-height: $typographic-base-line-height;
-    font-size: $typographic-base-font-size;
-    background: $color-bg;
-    background-image:
-        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(15, 118, 110, 0.08), transparent),
-        radial-gradient(ellipse 60% 40% at 100% 0%, rgba(3, 105, 161, 0.04), transparent);
-    -ms-text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  font-family: $typographic-font-family;
+  color: var(--color-ink);
+  line-height: $typographic-base-line-height;
+  font-size: $typographic-base-font-size;
+  background: var(--color-bg);
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "ss01", "cv11";
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-family: $typographic-font-family;
-    font-weight: 500;
+::selection {
+  background: var(--color-selection-bg);
+  color: var(--color-selection-fg);
 }
 
-h1 {
-    font-size: $typographic-base-font-size * 2.5;
-    @include line-height(2);
-    @include margin-top(4);
-    @include margin-bottom(1);
+h1, h2, h3, h4, h5, h6 {
+  font-family: $typographic-font-family;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+  line-height: $typographic-heading-line-height;
+  margin: 1.5rem 0 0.75rem;
 }
 
-h2 {
-    font-size: $typographic-base-font-size * 1.6875;
-    @include line-height(1.5);
-    @include margin-top(2);
-    @include margin-bottom(.5);
-}
-
-h3 {
-    font-size: $typographic-base-font-size * 1.375;
-    @include line-height(1);
-    @include margin-top(2);
-    @include margin-bottom(.5);
-}
-
-h4 {
-    font-size: $typographic-base-font-size * 1.2;
-    @include line-height(1);
-    @include margin-top(1.5);
-    @include margin-bottom(.5);
-}
-
-h5 {
-    font-size: $typographic-base-font-size;
-    @include line-height(1);
-    @include margin-top(2.5);
-    @include margin-bottom(.5);
-}
-
-h6 {
-    font-size: $typographic-base-font-size;
-    @include line-height(1);
-    @include margin-top(2.5);
-    @include margin-bottom(.5);
-}
+h1 { font-size: 1.75rem; letter-spacing: -0.03em; }
+h2 { font-size: 1.375rem; }
+h3 { font-size: 1.125rem; }
+h4 { font-size: 1rem; }
+h5 { font-size: 0.9375rem; }
+h6 { font-size: 0.875rem; }
 
 img {
-    border: 0;
-    max-width: 100%;
-    display: block;
-    margin: inherit auto;
+  border: 0;
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
 }
 
 hr {
-    margin-top: 52px;
-    margin-bottom: 52px;
-    border: 0;
-    color: $color-base;
-    display: block;
-    height: 26px;
-    margin-right: auto;
-    margin-left: auto;
-    background-size: 100% 26px;
-    background-image: linear-gradient(to bottom, transparent 1px, transparent 11px, $color-base 11px, $color-base 15px, transparent 15px, transparent 26px);
-    width: 100px;
+  margin: 2.5rem 0;
+  border: 0;
+  border-top: 1px solid var(--color-border);
+  width: 100%;
+  height: 0;
+  background: none;
 }
 
 a {
-    color: $typographic-link-p-font-color;
-    text-decoration: none;
-    &:hover,
-    &:focus,
-    &:active {
-        color: $typographic-link-s-font-color;
-    }
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color 0.12s ease;
+
+  &:hover,
+  &:focus {
+    color: var(--color-accent-hover);
+  }
 }
 
-b,
-strong {
-    font-weight: 500;
+b, strong {
+  font-weight: 600;
+  color: var(--color-ink-strong);
 }
 
 ul {
-    list-style: square;
-    @include margin-bottom(1);
-    & li {
-        padding: 0 5px;
-        margin-bottom: 10px;
-    }
+  list-style: square;
+  padding-left: 1.25rem;
+  margin-bottom: 1rem;
+  & li {
+    padding: 0;
+    margin-bottom: 0.25rem;
+  }
 }
 
 p {
-    @include line-height(1);
-    @include margin-bottom(1);
+  line-height: 1.6;
+  margin: 0 0 1rem;
 }
 
 blockquote {
-    padding: 0;
-    font-style: italic;
-    text-align: center;
+  padding: 0;
+  font-style: italic;
+  text-align: left;
+  margin: 1.5rem 0;
 }
 
 figure {
-    display: block;
-    width: 100%;
-    height: auto;
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 1.5rem 0;
 }
 
 figcaption {
-    @include line-height(.75);
-    @include margin-top(.25);
-    color: $color-base;
-    font-size: $typographic-small-font-size;
-    font-style: italic;
-    margin-bottom: 0;
-    text-align: center;
+  color: var(--color-muted);
+  font-family: $typographic-font-mono;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 0.5rem;
+  text-align: left;
 }
 
 .layout {
-    max-width: $layout-width;
-    margin-left: auto;
-    margin-right: auto;
+  max-width: $layout-width;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .layout__wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
 .content {
+  &--home {
+    padding-bottom: 1rem;
+  }
+
+  &__inner {
+    padding: 2rem 0 3rem;
+    @include breakpoint-sm {
+      padding: 2.5rem 0 4rem;
+    }
+
     &--home {
-        padding-bottom: 1rem;
+      padding-top: 0;
     }
+  }
 
-    &__inner {
-        padding: 2rem 0 3rem;
-        @include breakpoint-sm {
-            padding: 2.5rem 0 4rem;
-        }
+  &__heading {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0 0 1.5rem;
+    color: var(--color-ink);
 
-        &--home {
-            padding-top: 0;
-        }
+    &--home {
+      font-family: $typographic-font-mono;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 1rem;
     }
-    &__heading {
-        font-size: 1.75rem;
-        font-weight: 600;
-        letter-spacing: -0.02em;
-        margin: 0 0 1.5rem;
-        color: $color-base;
-        &--home {
-            font-size: 0.8125rem;
-            font-weight: 600;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: $color-muted;
-            margin-bottom: 1rem;
-        }
-    }
+  }
 }
 
 .page__title {
-    font-family: $typographic-font-serif;
-    font-size: 1.75rem;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-    color: $color-base;
-    text-transform: capitalize;
+  font-family: $typographic-font-family;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  margin: 0 0 1.5rem;
+  color: var(--color-ink);
+  text-transform: none;
 
-    @include breakpoint-sm {
-        font-size: 2rem;
-    }
+  @include breakpoint-sm {
+    font-size: 1.875rem;
+  }
 }
 
 @include breakpoint-sm {
-    figure.float-left,
-    figure.float-right {
-        max-width: 310px;
-        @include padding(0, 1, 0, 1);
-    }
-    .float-right {
-        float: right;
-    }
-    .float-left {
-        float: left;
-    }
+  figure.float-left,
+  figure.float-right {
+    max-width: 310px;
+    @include padding(0, 1, 0, 1);
+  }
+  .float-right { float: right; }
+  .float-left { float: left; }
 }
-

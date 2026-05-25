@@ -4,6 +4,7 @@ import Post from '../../components/Post.astro';
 import { getCollection } from 'astro:content';
 import { siteMetadata } from '../../data/site';
 import { categorySlug, postPath, extractFirstImage } from '../../utils/blog';
+import { formatTaxonomyName, taxonomyDescription } from '../../utils/seo';
 
 export async function getStaticPaths() {
   const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
@@ -18,20 +19,31 @@ export async function getStaticPaths() {
 }
 
 const { tagSlug } = Astro.props;
-const tagName = tagSlug.replace(/-/g, ' ');
 const posts = (await getCollection('blog'))
   .filter(
     (p) =>
       !p.data.draft &&
-      p.data.tags.some((t: string) => t.toLowerCase().replace(/\s+/g, '-') === tagSlug)
+      p.data.tags.some((t: string) => t.toLowerCase().replace(/\s+/g, '-') === tagSlug),
   )
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const tagLabel =
+  posts[0]?.data.tags.find((t) => t.toLowerCase().replace(/\s+/g, '-') === tagSlug) ??
+  formatTaxonomyName(tagSlug);
+const description = taxonomyDescription(tagLabel, posts.length, 'tag');
+const canonical = `/tags/${tagSlug}/`;
+const thinTagPage = posts.length < 2;
 ---
 
-<Layout title={`${tagName} - ${siteMetadata.title}`} description={siteMetadata.subtitle}>
+<Layout
+  title={`${tagLabel} - ${siteMetadata.title}`}
+  description={description}
+  canonical={canonical}
+  noindex={thinTagPage}
+>
   <main id="main-content" class="content">
     <div class="content__inner">
-      <h1 class="page__title">Posts tagged &ldquo;{tagName}&rdquo;</h1>
+      <h1 class="page__title">Posts tagged &ldquo;{tagLabel}&rdquo;</h1>
       <div class="post-list post-list--grid">
         {posts.map((entry) => (
           <Post
