@@ -15,21 +15,21 @@
 
       &-link {
         display: block;
-        font-size: $typographic-small-font-size;
+        font-family: $typographic-font-mono;
+        font-size: 12px;
         font-weight: 500;
-        color: $color-muted;
+        color: var(--color-muted);
         padding: 0.5rem 0;
-        border-radius: $radius-sm;
         text-decoration: none;
-        transition: color 0.15s ease, background 0.15s ease;
+        transition: color 0.12s ease;
 
         &:hover,
         &:focus {
-          color: $color-primary;
+          color: var(--color-ink);
         }
 
         &--active {
-          color: $color-primary;
+          color: var(--color-accent);
           font-weight: 600;
         }
       }

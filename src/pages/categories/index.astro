@@ -10,13 +10,18 @@ posts.forEach((p) => {
   categoryCounts.set(c, (categoryCounts.get(c) ?? 0) + 1);
 });
 const categories = Array.from(categoryCounts.entries()).sort((a, b) => a[0].localeCompare(b[0]));
+const description = `Browse ${categories.length} topics — articles on AI, systems, and software engineering by ${siteMetadata.author.name}.`;
 
 function categorySlug(cat: string) {
   return '/categories/' + cat.toLowerCase().replace(/\s+/g, '-') + '/';
 }
 ---
 
-<Layout title={`Categories - ${siteMetadata.title}`} description={siteMetadata.subtitle}>
+<Layout
+  title={`Topics - ${siteMetadata.title}`}
+  description={description}
+  canonical="/categories/"
+>
   <main id="main-content" class="content">
     <div class="content__inner">
       <div class="page">
@@ -27,7 +32,8 @@ function categorySlug(cat: string) {
               {categories.map(([name, count]) => (
                 <li class="categories__list-item">
                   <a href={categorySlug(name)} class="categories__list-item-link">
-                    {name} ({count})
+                    <span class="categories__list-item-name">{name}</span>
+                    <span class="categories__list-item-count">{String(count).padStart(2, '0')}</span>
                   </a>
                 </li>
               ))}

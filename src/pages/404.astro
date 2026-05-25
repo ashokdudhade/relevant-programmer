@@ -3,7 +3,11 @@ import Layout from '../layouts/Layout.astro';
 import { siteMetadata } from '../data/site';
 ---
 
-<Layout title={`Not found - ${siteMetadata.title}`} description={siteMetadata.subtitle}>
+<Layout
+  title={`Not found - ${siteMetadata.title}`}
+  description="The page you requested could not be found."
+  noindex={true}
+>
   <main id="main-content" class="content">
     <div class="content__inner">
       <div class="page">

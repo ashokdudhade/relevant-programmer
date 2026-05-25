@@ -11,13 +11,18 @@ posts.forEach((p) => {
   });
 });
 const tags = Array.from(tagCounts.entries()).sort((a, b) => a[0].localeCompare(b[0]));
+const description = `Browse ${tags.length} tags across articles on ${siteMetadata.title}.`;
 
 function tagSlug(tag: string) {
   return `/tags/${tag.toLowerCase().replace(/\s+/g, '-')}/`;
 }
 ---
 
-<Layout title={`Tags - ${siteMetadata.title}`} description={siteMetadata.subtitle}>
+<Layout
+  title={`Tags - ${siteMetadata.title}`}
+  description={description}
+  canonical="/tags/"
+>
   <main id="main-content" class="content">
     <div class="content__inner">
       <div class="page">

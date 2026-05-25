@@ -11,6 +11,8 @@ import {
   getCategoryCounts,
   estimateReadTime,
 } from '../utils/blog';
+import { DEFAULT_DESCRIPTION } from '../utils/seo';
+import { buildHomeSchema } from '../utils/schema';
 
 const posts = (await getCollection('blog'))
   .filter((p) => !p.data.draft)
@@ -20,35 +22,41 @@ const [featured, ...rest] = posts;
 const categories = getCategoryCounts(posts);
 const featuredImage = featured ? extractFirstImage(featured.body) : null;
 const featuredReadTime = featured ? estimateReadTime(featured.body) : undefined;
+
+const postCount = posts.length;
+const topicCount = categories.length;
+const lastUpdated = posts[0]
+  ? new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short' }).format(posts[0].data.date)
+  : null;
 ---
 
 <Layout
-  title={siteMetadata.title}
-  description="Notes on software engineering, AI in production, and building reliable systems."
+  title={`${siteMetadata.title} — notes on AI, systems, and production software`}
+  description={DEFAULT_DESCRIPTION}
+  canonical="/"
+  image={featuredImage}
+  jsonLd={buildHomeSchema()}
 >
   <main id="main-content" class="content content--home">
     <section class="home__hero" aria-labelledby="home-intro">
       <div class="home__intro">
-        <div class="home__intro-top">
-          <div class="home__avatar">
-            <img src="/profile-pic.jpg" alt={siteMetadata.author.name} width="56" height="56" />
-          </div>
-          <div class="home__intro-copy">
-            <p class="home__eyebrow">{siteMetadata.author.name}</p>
-            <h1 id="home-intro" class="home__title">
-              Notes on AI, systems, and shipping software that holds up in production.
-            </h1>
-          </div>
-        </div>
+        <p class="home__eyebrow">
+          <span class="home__eyebrow-mark" aria-hidden="true">●</span>
+          {siteMetadata.author.name} — {siteMetadata.subtitle}
+        </p>
+        <h1 id="home-intro" class="home__title">
+          Notes on <em>AI</em>, systems, and shipping software that holds up in production.
+        </h1>
         <p class="home__lede">
-          {siteMetadata.subtitle}. Long-form writing on engineering, agentic tools, and the lessons that only show up after deploy.
+          Long-form writing on engineering, agentic tools, and the lessons that only show up after deploy.
         </p>
         <div class="home__actions">
           <a class="home__action home__action--primary" href="#home-posts">
-            Browse articles
+            Read articles
+            <span aria-hidden="true">→</span>
           </a>
           <a class="home__action home__action--secondary" href="/about/">
-            About me
+            About
           </a>
         </div>
       </div>
@@ -67,16 +75,42 @@ const featuredReadTime = featured ? estimateReadTime(featured.body) : undefined;
       )}
     </section>
 
+    <div class="home__statusbar" role="presentation">
+      <span class="home__statusbar-item">
+        <span class="home__statusbar-key">articles</span>
+        <span class="home__statusbar-val">{String(postCount).padStart(2, '0')}</span>
+      </span>
+      <span class="home__statusbar-item">
+        <span class="home__statusbar-key">topics</span>
+        <span class="home__statusbar-val">{String(topicCount).padStart(2, '0')}</span>
+      </span>
+      {lastUpdated && (
+        <span class="home__statusbar-item">
+          <span class="home__statusbar-key">updated</span>
+          <span class="home__statusbar-val">{lastUpdated}</span>
+        </span>
+      )}
+      <span class="home__statusbar-item home__statusbar-item--feed">
+        <a href="/llms.txt" class="home__statusbar-link">llms.txt</a>
+        <span aria-hidden="true">·</span>
+        <a href="/rss.xml" class="home__statusbar-link">rss</a>
+        <span aria-hidden="true">·</span>
+        <a href={`https://github.com/${siteMetadata.author.github}`} class="home__statusbar-link" rel="noopener">github</a>
+      </span>
+    </div>
+
     <section class="home__section home__section--topics" aria-labelledby="home-topics">
-      <div class="home__section-header">
-        <h2 id="home-topics" class="home__section-title">Browse by topic</h2>
-        <a class="home__section-link" href="/categories/">All categories →</a>
-      </div>
+      <header class="home__section-header">
+        <h2 id="home-topics" class="home__section-title">
+          <span class="home__section-marker" aria-hidden="true">/</span> topics
+        </h2>
+        <a class="home__section-link" href="/categories/">all topics →</a>
+      </header>
       <nav class="home__topics" aria-label="Topics">
         {categories.slice(0, 8).map(({ name, count, slug }) => (
           <a class="home__topic" href={slug}>
-            {name}
-            <span class="home__topic-count">{count}</span>
+            <span class="home__topic-name">{name}</span>
+            <span class="home__topic-count">{String(count).padStart(2, '0')}</span>
           </a>
         ))}
       </nav>
@@ -84,13 +118,17 @@ const featuredReadTime = featured ? estimateReadTime(featured.body) : undefined;
 
     {rest.length > 0 && (
       <section id="home-posts" class="home__section home__section--posts" aria-labelledby="home-posts-heading">
-        <div class="home__section-header">
-          <h2 id="home-posts-heading" class="home__section-title">All articles</h2>
-        </div>
+        <header class="home__section-header">
+          <h2 id="home-posts-heading" class="home__section-title">
+            <span class="home__section-marker" aria-hidden="true">/</span> articles
+          </h2>
+          <span class="home__section-meta">{postCount} total</span>
+        </header>
         <div class="post-list post-list--grid">
-          {rest.map((entry) => (
+          {rest.map((entry, idx) => (
             <Post
               variant="card"
+              index={idx + 1}
               title={entry.data.title}
               date={entry.data.date}
               category={entry.data.category}

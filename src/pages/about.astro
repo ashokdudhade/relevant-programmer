@@ -2,19 +2,26 @@
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { siteMetadata } from '../data/site';
+import { buildAboutSchema } from '../utils/schema';
 
 const pages = await getCollection('pages');
 const about = pages.find((p) => p.data.path === '/about' || p.id.endsWith('about'));
 const rendered = about ? await about.render() : null;
 const Content = rendered?.Content;
-const title = about?.data.title ?? 'About';
+const pageTitle = about?.data.title ?? 'About';
+const description = `${siteMetadata.author.name} — ${siteMetadata.subtitle}. Engineering leader writing about agentic AI, production systems, and software that scales.`;
 ---
 
-<Layout title={`${title} - ${siteMetadata.title}`} description={siteMetadata.subtitle}>
+<Layout
+  title={`${pageTitle} - ${siteMetadata.title}`}
+  description={description}
+  canonical="/about/"
+  jsonLd={buildAboutSchema()}
+>
   <main id="main-content" class="content">
     <div class="content__inner">
       <article class="page">
-        <h1 class="page__title">{title}</h1>
+        <h1 class="page__title">{pageTitle}</h1>
         <div class="page__body">
           {Content && <Content />}
         </div>
